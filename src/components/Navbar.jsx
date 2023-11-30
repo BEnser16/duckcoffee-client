@@ -9,7 +9,7 @@ const Navbar = () => {
       >
         <div class="container-fluid">
           <a class="navbar-brand" href="/">
-            DUCK COFFEE
+            <b>DUCK COFFEE</b>
           </a>
           <button
             class="navbar-toggler"
@@ -56,7 +56,7 @@ const Navbar = () => {
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="/order">
-                  來點餐吧
+                  我要點餐
                 </a>
               </li>
               
