@@ -16,6 +16,7 @@ import Contact from './pages/Contact';
 import Login from './pages/auth/Login';
 import Register from './pages/auth/Register';
 import OrderPage from './pages/OrderPage';
+import AdminControl from './pages/admin/AdminControl';
 
 const router = createBrowserRouter([
   {
@@ -48,7 +49,10 @@ const router = createBrowserRouter([
   },{
     path:"/order",
     element:<OrderPage/>
-  },
+  },{
+    path:"/admin",
+    element:<AdminControl/>
+  }
 
 ])
 
