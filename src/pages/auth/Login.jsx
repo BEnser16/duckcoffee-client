@@ -19,9 +19,20 @@ const Login = () => {
     AuthService.login(email , password).then((res) => {
       console.log("send login request.");
       console.log("login response: " + JSON.stringify(res));
-      if(email == 'admin@gmail.com') {
+
+      if(email === 'admin@gmail.com') {
         window.location.href = "http://localhost:3000/admin";
       }
+
+      const login_userObj = {
+        user_name:res.data.data.email,
+        user_token:res.data.token,
+        user_email:res.data.data.email
+      }
+
+      const login_user_jsonstr = JSON.stringify(login_userObj);
+      localStorage.setItem("user-info" , login_user_jsonstr);
+
 
     }).catch((err) =>{
       console.error("send login request error.");

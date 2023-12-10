@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import CoffeeMenu from "../../components/menupage/CoffeeMenu";
+import MenuControl from "../../components/adminpage/MenuControl";
 
 const AdminControl = () => {
   function handleManageMode(selectMode) {
@@ -8,11 +8,16 @@ const AdminControl = () => {
   }
 
   const [mode, setMode] = useState("");
+  console.log(mode)
+  
 
   return (
     <div>
       <div className="container">
-        <h2>welcome to admin page</h2>
+        <div className="my-4" >
+          <h2>welcome to admin page</h2>
+
+        </div>
 
         <nav class="nav nav-pills nav-fill">
           <button
@@ -55,31 +60,11 @@ const AdminControl = () => {
             aria-labelledby="menu-tab"
             tabindex="0"
           >
-            <div className="row mt-5">
-                <ul class="nav nav-tabs">
-                <li class="nav-item">
-                    <button class="nav-link active" aria-current="page">
-                    咖啡
-                    </button>
-                </li>
-                <li class="nav-item">
-                    <button class="nav-link">三明治</button>
-                </li>
-                <li class="nav-item">
-                    <button class="nav-link">甜點</button>
-                </li>
-                <li class="nav-item">
-                    <button class="nav-link ">沙拉</button>
-                </li>
-                </ul>
-            </div>
-            <div className="mt-3">
-              <CoffeeMenu />
-            </div>
+           <MenuControl/> 
           </div>
           <div
             class="tab-pane fade"
-            id="profile-tab-pane"
+            id="order-pane"
             role="tabpanel"
             aria-labelledby="profile-tab"
             tabindex="0"
