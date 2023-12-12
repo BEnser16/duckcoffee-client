@@ -15,6 +15,14 @@ class AuthService {
         return axios.post(API_URL + "/register" , {email , password});
     }
 
+    getCurrentUser(){
+        return JSON.parse(localStorage.getItem("user-info"));
+    };   
+
+    logout(){
+     localStorage.removeItem("user-info");
+    }
+
 }
 
 const authServiceInstance = new AuthService();

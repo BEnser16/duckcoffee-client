@@ -1,57 +1,58 @@
 import React from "react";
-import { MenuService } from "../../service/MenuService";
 import { useState } from "react";
+import { MenuService } from "../../service/MenuService";
 
-const AddMenuItem = () => {
-
-  const [name , setName] = useState("");
-  const [description , setDescription] = useState("");
-  const [price , setPrice] = useState();
-  const [category , setCategory] = useState();
-  const [img , setImg] = useState();
-
-  function handleCreateMenuItem(name , description , price , category , img) {
-    MenuService.createMenuItem(name , description , img , price, category).then((res) => {
-      console.log("create menu item res: " , res);
-    }).catch((err) => {
-      console.warn("create menu item error: " , err);
-    })
-  }
+const EditMenuItem = (props) => {
+  const [name, setName] = useState(props.menuItem.name);
+  const [description, setDescription] = useState(props.menuItem.description);
+  const [price, setPrice] = useState(props.menuItem.price);
+  const [category, setCategory] = useState(props.menuItem.category);
+  const [img, setImg] = useState(props.menuItem.img);
 
   const handleInputName = (e) => {
     setName(e.target.value);
-  }
+  };
 
   const handleInputDescription = (e) => {
     setDescription(e.target.value);
-  }
+  };
 
   const handleInputPrice = (e) => {
     setPrice(e.target.value);
-  }
-  
+  };
+
   const handleSelectCategory = (category) => {
     setCategory(category);
-  }
+  };
 
   const handleImgFile = (e) => {
     const img_file = e.target.files[0];
     setImg(img_file);
+  };
+
+  const handleEditMenuItem = (name , description , img , price , category) => {
+    console.log("item : " , props.menuItem.name);
+    MenuService.updateMenuItemById(props.itemId ,  name , description , img , price , category ).then((res) => {
+        console.log("patch menu item res: " , res);
+    }).catch((err) => {
+        console.warn("patch menu item error: " , err);
+    });
   }
 
   return (
     <div>
       <button
-        className="btn btn-info"
+        className="btn btn-primary mx-2"
         data-bs-toggle="modal"
-        data-bs-target="#addmenuItem"
+        data-bs-target="#editMenuItem"
+        onClick={handleEditMenuItem}
       >
-        新增品項
+        編輯
       </button>
 
       <div
         className="modal fade"
-        id="addmenuItem"
+        id="editMenuItem"
         data-bs-backdrop="static"
         data-bs-keyboard="false"
         tabindex="-1"
@@ -61,9 +62,7 @@ const AddMenuItem = () => {
         <div className="modal-dialog modal-dialog-centered">
           <div class="modal-content">
             <div class="modal-header">
-              <h1 class="modal-title fs-5" id="staticBackdropLabel">
-                新增餐點品項
-              </h1>
+              <h1 class="modal-title fs-5">編輯餐點品項</h1>
               <button
                 type="button"
                 class="btn-close"
@@ -72,6 +71,7 @@ const AddMenuItem = () => {
               ></button>
             </div>
             <div class="modal-body">
+                <img className="mb-2" src={props.menuItem.img} alt="edit menu img" style={{maxHeight:"150px" , maxWidth:"400px"}} />
               <div className="input-group mb-3">
                 <span class="input-group-text" id="inputGroup-sizing-default">
                   餐點名稱
@@ -105,6 +105,7 @@ const AddMenuItem = () => {
                   type="text"
                   class="form-control"
                   placeholder="請輸入餐點價格"
+                  defaultValue={props.menuItem.price}
                   value={price}
                   handleInputPrice={handleInputPrice}
                 />
@@ -116,26 +117,38 @@ const AddMenuItem = () => {
                     data-bs-toggle="dropdown"
                     aria-expanded="false"
                   >
-                    選擇餐點分類
+                    {category}
                   </button>
                   <ul class="dropdown-menu">
                     <li>
-                      <button class="dropdown-item" onClick={() => handleSelectCategory("coffee")} >
+                      <button
+                        class="dropdown-item"
+                        onClick={() => handleSelectCategory("coffee")}
+                      >
                         咖啡
                       </button>
                     </li>
                     <li>
-                      <button class="dropdown-item" onClick={() => handleSelectCategory("sandwich")} >
+                      <button
+                        class="dropdown-item"
+                        onClick={() => handleSelectCategory("sandwich")}
+                      >
                         三明治
                       </button>
                     </li>
                     <li>
-                      <button class="dropdown-item" onClick={() => handleSelectCategory("desert")} >
+                      <button
+                        class="dropdown-item"
+                        onClick={() => handleSelectCategory("desert")}
+                      >
                         甜點
                       </button>
                     </li>
                     <li>
-                      <button class="dropdown-item" onClick={() => handleSelectCategory("salad")} >
+                      <button
+                        class="dropdown-item"
+                        onClick={() => handleSelectCategory("salad")}
+                      >
                         沙拉
                       </button>
                     </li>
@@ -157,7 +170,9 @@ const AddMenuItem = () => {
               >
                 取消
               </button>
-              <button type="button" class="btn btn-primary" onClick={() => handleCreateMenuItem(name , description , price , category , img)} >
+              <button type="button" class="btn btn-primary" onClick={() => handleEditMenuItem(
+                name , description , img , price , category
+              )} >
                 完成
               </button>
             </div>
@@ -168,4 +183,4 @@ const AddMenuItem = () => {
   );
 };
 
-export default AddMenuItem;
+export default EditMenuItem;

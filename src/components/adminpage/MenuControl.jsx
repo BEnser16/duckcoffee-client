@@ -2,6 +2,8 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { MenuService } from "../../service/MenuService";
 import AddMenuItem from "./AddMenuItem";
+import AddMenuCategory from "./AddMenuCategory";
+import EditMenuItem from "./EditMenuItem";
 
 const MenuControl = () => {
   function handleManageMode(selectMode) {
@@ -9,6 +11,16 @@ const MenuControl = () => {
       setMode(selectMode);
     }
   }
+
+  function handleDeleteMenuItem(id) {
+    MenuService.deleteMenuItemById(id).then((res) => {
+      console.log("delete menu item res: " , res);
+    }).catch((err) => {
+      console.warn("delete menu item error: " , err);
+    });
+  }
+
+  
 
   const [mode, setMode] = useState("coffee-tab");
   const [coffeeItems, setCoffeeItems] = useState([]);
@@ -96,7 +108,7 @@ const MenuControl = () => {
         </ul>
         {/** control menu item option */}
         <div className="mt-4 d-flex">
-          <button className="btn btn-success mx-2">新增分類</button>
+          <AddMenuCategory />
           <AddMenuItem/>
         </div>
       </div>
@@ -111,13 +123,16 @@ const MenuControl = () => {
                     key={index}
                     class="card border-dark m-2"
                     style={{ width: "18rem" }}
+                    id={index}
                   >
                     <img src={item.img} class="card-img-top" alt="coffee" />
                     <div class="card-body">
                       <h3>{item.name}</h3>
                       <p class="card-text">{item.description}</p>
-                      <button className="btn btn-danger">刪除</button>
-                      <button className="btn btn-primary m-2">編輯</button>
+                      <div className="d-flex">
+                        <button className="btn btn-danger" onClick={() => handleDeleteMenuItem(index)} >刪除</button>
+                        <EditMenuItem menuItem={item} itemId={index}/>
+                      </div>
                     </div>
                   </div>
                 );
@@ -140,8 +155,10 @@ const MenuControl = () => {
                     <div class="card-body">
                       <h3>{item.name}</h3>
                       <p class="card-text">{item.description}</p>
-                      <button className="btn btn-danger">刪除</button>
-                      <button className="btn btn-primary m-2">編輯</button>
+                      <div className="d-flex">
+                        <button className="btn btn-danger" onClick={() => handleDeleteMenuItem(index)} >刪除</button>
+                        <EditMenuItem menuItem={item} itemId={index}/>
+                      </div>
                     </div>
                   </div>
                 );
@@ -164,8 +181,10 @@ const MenuControl = () => {
                     <div class="card-body">
                       <h3>{item.name}</h3>
                       <p class="card-text">{item.description}</p>
-                      <button className="btn btn-danger">刪除</button>
-                      <button className="btn btn-primary m-2">編輯</button>
+                      <div className="d-flex">
+                        <button className="btn btn-danger" onClick={() => handleDeleteMenuItem(index)} >刪除</button>
+                        <EditMenuItem menuItem={item} itemId={index}/>
+                      </div>
                     </div>
                   </div>
                 );
@@ -188,8 +207,11 @@ const MenuControl = () => {
                     <div class="card-body">
                       <h3>{item.name}</h3>
                       <p class="card-text">{item.description}</p>
-                      <button className="btn btn-danger">刪除</button>
-                      <button className="btn btn-primary m-2">編輯</button>
+                      <div className="d-flex">
+                        <button className="btn btn-danger" onClick={() => handleDeleteMenuItem(index)} >刪除</button>
+                        <EditMenuItem menuItem={item} itemId={index}/>
+                      </div>
+                      
                     </div>
                   </div>
                 );

@@ -1,6 +1,18 @@
 import React from "react";
+import { AuthService } from "../service/AuthService";
 
-const Navbar = () => {
+const Navbar = (props) => {
+  let {currentUser , setCurrentUser} = props;
+
+  const handleLogout = () => {
+    AuthService.logout();
+    window.alert("Logout successfully! now redirect to the home page. ");  
+    setCurrentUser(null);
+    window.location.href = "http://localhost:3000/";
+  };
+
+
+
   return (
     <div>
       <nav
@@ -59,12 +71,46 @@ const Navbar = () => {
                   我要點餐
                 </a>
               </li>
-              
             </ul>
-
-            <a href="/login" class="btn btn-success" type="submit">
-              會員登入
-            </a>
+            {currentUser && (
+              <div className="dropdown-center">
+                <button
+                  className="btn dropdown-toggle"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  <img
+                    style={{
+                      maxHeight: 50,
+                      maxWidth: 50,
+                      borderRadius: "50%",
+                      objectFit: "cover",
+                    }}
+                    src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=2942&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                    alt="admin avatar"
+                  />
+                </button>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a class="dropdown-item" href="/user-info">
+                      用戶資訊
+                    </a>
+                  </li>
+                  
+                  <li>
+                    <button class="dropdown-item" onClick={handleLogout} >
+                      登出
+                    </button>
+                    
+                  </li>
+                </ul>
+              </div>
+            )}
+            {!currentUser && (
+              <a href="/login" class="btn btn-success" type="submit">
+                會員登入
+              </a>
+            )}
           </div>
         </div>
       </nav>

@@ -1,10 +1,13 @@
 import React from "react";
 import { useState } from "react";
 import  {AuthService}  from "../../service/AuthService";
+import { useDispatch } from "react-redux";
+import { login } from "../../slice/userSlice";
 
 const Login = () => {
   const [email , setEmail] = useState("");
   const [password , setPassword] = useState("");
+  const dispatch = useDispatch();
 
   const handleEmailChange = event => {
     setEmail(event.target.value);
@@ -18,20 +21,26 @@ const Login = () => {
     e.preventDefault();
     AuthService.login(email , password).then((res) => {
       console.log("send login request.");
-      console.log("login response: " + JSON.stringify(res));
-
-      if(email === 'admin@gmail.com') {
-        window.location.href = "http://localhost:3000/admin";
-      }
-
+      console.log("login response: " , res.data);
+      console.log("res email" , res.data.email);
+      
       const login_userObj = {
-        user_name:res.data.data.email,
+        user_name:res.data.email,
         user_token:res.data.token,
-        user_email:res.data.data.email
+        user_email:res.data.email
       }
 
       const login_user_jsonstr = JSON.stringify(login_userObj);
       localStorage.setItem("user-info" , login_user_jsonstr);
+      console.log("set localstorage item user-info: " , login_user_jsonstr);
+      dispatch(login());
+
+      if(email === 'admin@gmail.com') {
+        window.location.href = "http://localhost:3000/admin";
+      } else {
+        window.location.href = "http://localhost:3000/";
+      }
+
 
 
     }).catch((err) =>{
