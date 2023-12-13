@@ -96,6 +96,11 @@ const Navbar = (props) => {
                       用戶資訊
                     </a>
                   </li>
+                  <li>
+                    <a class="dropdown-item" href="/admin">
+                      控制中心
+                    </a>
+                  </li>
                   
                   <li>
                     <button class="dropdown-item" onClick={handleLogout} >

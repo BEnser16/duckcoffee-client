@@ -12,9 +12,20 @@ const MenuControl = () => {
     }
   }
 
-  function handleDeleteMenuItem(id) {
+  function handleDeleteMenuItem(href) {
+    // get id by regex
+    const idMatch = href.match(/\/(\d+)$/); // 提取最後的數字
+    const id = idMatch ? idMatch[1] : null;
+    console.log("Delete MenuItem ID:", id);
+
+
+
     MenuService.deleteMenuItemById(id).then((res) => {
       console.log("delete menu item res: " , res);
+      window.alert("MenuItem has been delete.");
+      window.location.reload();
+
+
     }).catch((err) => {
       console.warn("delete menu item error: " , err);
     });
@@ -129,9 +140,10 @@ const MenuControl = () => {
                     <div class="card-body">
                       <h3>{item.name}</h3>
                       <p class="card-text">{item.description}</p>
+                      <h5>${item.price}</h5>
                       <div className="d-flex">
-                        <button className="btn btn-danger" onClick={() => handleDeleteMenuItem(index)} >刪除</button>
-                        <EditMenuItem menuItem={item} itemId={index}/>
+                        <button className="btn btn-danger" onClick={() => handleDeleteMenuItem(item._links.self.href)} >刪除</button>
+                        <EditMenuItem menuItem={item} />
                       </div>
                     </div>
                   </div>
@@ -155,9 +167,11 @@ const MenuControl = () => {
                     <div class="card-body">
                       <h3>{item.name}</h3>
                       <p class="card-text">{item.description}</p>
+                      <h5>${item.price}</h5>
+
                       <div className="d-flex">
-                        <button className="btn btn-danger" onClick={() => handleDeleteMenuItem(index)} >刪除</button>
-                        <EditMenuItem menuItem={item} itemId={index}/>
+                        <button className="btn btn-danger" onClick={() => handleDeleteMenuItem(item._links.self.href)} >刪除</button>
+                        <EditMenuItem menuItem={item} />
                       </div>
                     </div>
                   </div>
@@ -181,9 +195,11 @@ const MenuControl = () => {
                     <div class="card-body">
                       <h3>{item.name}</h3>
                       <p class="card-text">{item.description}</p>
+                      <h5>${item.price}</h5>
+
                       <div className="d-flex">
-                        <button className="btn btn-danger" onClick={() => handleDeleteMenuItem(index)} >刪除</button>
-                        <EditMenuItem menuItem={item} itemId={index}/>
+                        <button className="btn btn-danger" onClick={() => handleDeleteMenuItem(item._links.self.href)} >刪除</button>
+                        <EditMenuItem menuItem={item} />
                       </div>
                     </div>
                   </div>
@@ -207,6 +223,8 @@ const MenuControl = () => {
                     <div class="card-body">
                       <h3>{item.name}</h3>
                       <p class="card-text">{item.description}</p>
+                      <h5>${item.price}</h5>
+
                       <div className="d-flex">
                         <button className="btn btn-danger" onClick={() => handleDeleteMenuItem(index)} >刪除</button>
                         <EditMenuItem menuItem={item} itemId={index}/>

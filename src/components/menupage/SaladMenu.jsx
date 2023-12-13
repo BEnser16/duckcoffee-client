@@ -15,6 +15,8 @@ const SaladMenu = (props) => {
             <div class="card-body">
               <h3>{item.name}</h3>
               <p class="card-text">{item.description}</p>
+              <h5>${item.price}</h5>
+
             </div>
           </div>
         );

@@ -3,10 +3,15 @@ import { useState } from "react";
 import  {AuthService}  from "../../service/AuthService";
 import { useDispatch } from "react-redux";
 import { login } from "../../slice/userSlice";
+import TextToast from "../../utils/TextToast";
+
+
+
 
 const Login = () => {
   const [email , setEmail] = useState("");
   const [password , setPassword] = useState("");
+  const [showToast , setShowToast] = useState();
   const dispatch = useDispatch();
 
   const handleEmailChange = event => {
@@ -34,6 +39,9 @@ const Login = () => {
       localStorage.setItem("user-info" , login_user_jsonstr);
       console.log("set localstorage item user-info: " , login_user_jsonstr);
       dispatch(login());
+      setShowToast(true);
+      
+
 
       if(email === 'admin@gmail.com') {
         window.location.href = "http://localhost:3000/admin";
@@ -54,6 +62,7 @@ const Login = () => {
 
   return (
     <div className="container">
+      <TextToast message={"登入成功！"} show={showToast} />
       <div className="row mt-5">
         <div className="col-6 mx-auto">
           <div class="mb-3 row">

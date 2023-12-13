@@ -31,9 +31,17 @@ const EditMenuItem = (props) => {
   };
 
   const handleEditMenuItem = (name , description , img , price , category) => {
+    // get id by regex
+    const href = props.menuItem._links.self.href;
+    const idMatch = href.match(/\/(\d+)$/); // 提取最後的數字
+    const id = idMatch ? idMatch[1] : null;
+    console.log("Update MenuItem ID:", id);
+
     console.log("item : " , props.menuItem.name);
-    MenuService.updateMenuItemById(props.itemId ,  name , description , img , price , category ).then((res) => {
+    MenuService.updateMenuItemById(id ,  name , description , img , price , category ).then((res) => {
         console.log("patch menu item res: " , res);
+        window.alert("update menu item success.");
+        window.location.reload();
     }).catch((err) => {
         console.warn("patch menu item error: " , err);
     });
@@ -105,9 +113,8 @@ const EditMenuItem = (props) => {
                   type="text"
                   class="form-control"
                   placeholder="請輸入餐點價格"
-                  defaultValue={props.menuItem.price}
                   value={price}
-                  handleInputPrice={handleInputPrice}
+                  onChange={handleInputPrice}
                 />
 
                 <div class="dropdown mx-2">

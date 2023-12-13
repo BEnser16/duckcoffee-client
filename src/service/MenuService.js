@@ -17,7 +17,7 @@ class MenuService {
 
     // delete menu item by id
     deleteMenuItemById(id) {
-        return axios.delete(API_URL + "/" + id);
+        return axios.delete(API_URL + "/" + id );
     }
 
     createMenuItem(name , description , img , price , category) {

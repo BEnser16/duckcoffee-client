@@ -7,12 +7,14 @@ const AddMenuItem = () => {
   const [name , setName] = useState("");
   const [description , setDescription] = useState("");
   const [price , setPrice] = useState();
-  const [category , setCategory] = useState();
+  const [category , setCategory] = useState("coffee");
   const [img , setImg] = useState();
 
   function handleCreateMenuItem(name , description , price , category , img) {
     MenuService.createMenuItem(name , description , img , price, category).then((res) => {
       console.log("create menu item res: " , res);
+      window.alert("create menu item success.");
+      window.location.reload();
     }).catch((err) => {
       console.warn("create menu item error: " , err);
     })
@@ -116,7 +118,7 @@ const AddMenuItem = () => {
                     data-bs-toggle="dropdown"
                     aria-expanded="false"
                   >
-                    選擇餐點分類
+                    {category}
                   </button>
                   <ul class="dropdown-menu">
                     <li>
