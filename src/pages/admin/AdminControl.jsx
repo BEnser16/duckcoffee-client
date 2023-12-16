@@ -1,6 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import MenuControl from "../../components/adminpage/MenuControl";
+import PostControl from "../../components/adminpage/PostControl";
 
 const AdminControl = () => {
   function handleManageMode(selectMode) {
@@ -32,6 +33,7 @@ const AdminControl = () => {
           <button
             class="nav-link"
             data-bs-toggle="tab"
+            data-bs-target="#order-pane"
             onClick={() => handleManageMode("order")}
           >
             點餐管理
@@ -39,6 +41,7 @@ const AdminControl = () => {
           <button
             class="nav-link"
             data-bs-toggle="tab"
+            data-bs-target="#booking-pane"
             onClick={() => handleManageMode("booking")}
           >
             訂位管理
@@ -46,6 +49,7 @@ const AdminControl = () => {
           <button
             class="nav-link"
             data-bs-toggle="tab"
+            data-bs-target="#post-pane"
             onClick={() => handleManageMode("news")}
           >
             發佈消息
@@ -66,28 +70,28 @@ const AdminControl = () => {
             class="tab-pane fade"
             id="order-pane"
             role="tabpanel"
-            aria-labelledby="profile-tab"
+            aria-labelledby="order-tab"
             tabindex="0"
           >
             ...
           </div>
           <div
             class="tab-pane fade"
-            id="contact-tab-pane"
+            id="booking-pane"
             role="tabpanel"
-            aria-labelledby="contact-tab"
+            aria-labelledby="booking-tab"
             tabindex="0"
           >
             ...
           </div>
           <div
             class="tab-pane fade"
-            id="disabled-tab-pane"
+            id="post-pane"
             role="tabpanel"
-            aria-labelledby="disabled-tab"
+            aria-labelledby="post-tab"
             tabindex="0"
           >
-            ...
+            <PostControl/>
           </div>
         </div>
       </div>
