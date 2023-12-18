@@ -3,6 +3,8 @@ import { useState, useEffect } from "react";
 import { MenuService } from "../service/MenuService";
 import { Nav } from "react-bootstrap";
 import OrderMenu from "../components/orderpage/OrderMenu";
+import CheckCartBtn from "../components/orderpage/CheckCartBtn";
+
 
 
 const OrderPage = () => {
@@ -78,7 +80,7 @@ const OrderPage = () => {
           </Nav.Item>
         </Nav>
         <div className="d-flex mt-3">
-          <button className="btn btn-success " >查看購物車</button>
+          <CheckCartBtn cart={cart} setCart={setCart} />
 
         </div>
       </div>
