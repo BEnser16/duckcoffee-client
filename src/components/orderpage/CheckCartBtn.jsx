@@ -1,11 +1,18 @@
 import React from "react";
 import { Button, Modal, Table , Badge } from "react-bootstrap";
 import { useState } from "react";
+import SendOrderBtn from "./SendOrderBtn";
 
 const CheckCartBtn = (props) => {
   const [show, setShow] = useState(false);
+  const [tablenum , setTablenum] = useState(1);
+
   let cart  = props.cart;
-    let setCart = props.setCart;
+  let setCart = props.setCart;
+
+  const handleTableNumInput = (e) => {
+    setTablenum(e.target.value);
+  }
 
   return (
     <>
@@ -30,8 +37,12 @@ const CheckCartBtn = (props) => {
           <Modal.Title> 購物車 </Modal.Title>
         </Modal.Header>
         <Modal.Body>
+              <div className="d-flex">
+                <h6>桌號: <input type="text" value={tablenum} onChange={handleTableNumInput} className="col-3" /></h6> 
+              </div>
           <Table>
             <thead>
+              
               <tr>
                 <th>品項</th>
                 <th>數量</th>
@@ -71,7 +82,7 @@ const CheckCartBtn = (props) => {
           >
             取消
           </Button>
-          <Button variant="primary">結帳</Button>
+          <SendOrderBtn cart={cart} tablenum={tablenum} />
         </Modal.Footer>
       </Modal>
     </>
