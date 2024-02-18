@@ -16,6 +16,7 @@ import AdminControl from "./pages/admin/AdminControl";
 import { useSelector } from "react-redux";
 import { useState } from "react";
 import { AuthService } from "./service/AuthService";
+import BookingControl from "./components/adminpage/bookingManage/BookingControl";
 
 
 
@@ -60,6 +61,10 @@ const router = createBrowserRouter([
   {
     path: "/admin",
     element: <AdminControl />,
+  },
+  {
+    path: "/admin/booking",
+    element: <BookingControl />,
   },
 ]);
 

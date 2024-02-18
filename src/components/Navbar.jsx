@@ -92,13 +92,18 @@ const Navbar = (props) => {
                 </button>
                 <ul class="dropdown-menu">
                   <li>
-                    <a class="dropdown-item" href="/user-info">
+                    <a class="dropdown-item" href="/admin/user-info">
                       用戶資訊
                     </a>
                   </li>
                   <li>
                     <a class="dropdown-item" href="/admin">
                       控制中心
+                    </a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="/admin/table-control">
+                      桌位管理
                     </a>
                   </li>
                   

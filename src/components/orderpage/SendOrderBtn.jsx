@@ -2,17 +2,18 @@ import React from "react";
 import { Button, Modal } from "react-bootstrap";
 import { useState } from "react";
 import { OrderFormService } from "../../service/OrderFormService";
+import { OrderItemService } from "../../service/OrderItemService";
 
 const SendOrderBtn = (props) => {
   let cart = props.cart;
   let tablenum = props.tablenum;
-  
-  
-    const [orderform_id , setOrderform_id] = useState(null);
-  const [rescheckoutdata , setRescheckoutdata] = useState({});
+
+  const [orderformId, setOrderformId] = useState(0); // response order form id
+  const [rescheckoutdata, setRescheckoutdata] = useState({});
   const [show, setShow] = useState(false);
   const [showCounterCheckout, setShowCounterCheckout] = useState(false);
 
+  // 計算總價
   const getTotalPrice = () => {
     let total_price = 0;
     cart.forEach((item) => {
@@ -26,25 +27,56 @@ const SendOrderBtn = (props) => {
     let total_price = getTotalPrice();
     let now = new Date();
     let create_time = now.toISOString();
-    console.log("create_time: ", create_time , "tablenum: ", tablenum , "total_price: ", total_price);
+    let responseOrderformId = 0;
+
+    // create order form
     OrderFormService.createOrderForm(
-        create_time
-      ,
+      create_time,
+      "inQueue",
       create_time,
       tablenum,
       total_price
     )
       .then((res) => {
-        console.log("post order form res: ", res);
         const selfLink = res.data._links.self.href;
         if (selfLink) {
-            setOrderform_id(selfLink.split('/').pop());
-            console.log("Created order form ID:", orderform_id);
+          let resOrderform_id = selfLink.split("/").pop();
+          console.log("resOrderform_id: ", resOrderform_id);
+          responseOrderformId = Number(resOrderform_id);
+          setOrderformId(responseOrderformId);
+          console.log(
+            "Created order form ID response ID:",
+            responseOrderformId
+          );
         }
-        console.log("res data: ", res.data);
-        console.log("orderform id: ", orderform_id);
+
         setRescheckoutdata(res.data);
-        
+
+        // 將購物車物件整理為 order item 物件 送出 request
+        cart.forEach((item) => {
+          const menuItemHref = item.menuItem._links.self.href;
+          const menuItemId = Number(menuItemHref.split("/").pop());
+          console.log(
+            "cart parse forEach menu item id , response orderform id: ",
+            menuItemId,
+            responseOrderformId
+          );
+          item.orderForm = {
+            id: responseOrderformId,
+          };
+          item.menuItem.id = menuItemId;
+        });
+
+        console.log("parsed order items : ", cart);
+
+        // create order item
+        OrderItemService.createOrderItems(cart)
+          .then((res) => {
+            console.log("post create order items res: ", res);
+          })
+          .catch((err) => {
+            console.log("post create order items error: ", err);
+          });
       })
       .catch((err) => {
         console.log("post order form error: ", err);
@@ -74,26 +106,28 @@ const SendOrderBtn = (props) => {
           <Modal.Title>訂單資訊</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <h5>選擇付款方式</h5>
+          <h6>選擇付款方式</h6>
           <div className="my-5 d-flex col-12">
-
             <Button
-                size="lg"
-                variant="info"
-                className="mx-2 p-5"
-                onClick={() => {
-                    handleSendCounterCheckout().then(() => {
-                        setShowCounterCheckout(true);
-                        setShow(false);
-                        
-                    }).catch((err) => {
-                        console.log(err);
-                    });
-                }}
-                >
-                櫃檯結帳
+              size="lg"
+              variant="info"
+              className="mx-2 p-5"
+              onClick={() => {
+                handleSendCounterCheckout()
+                  .then(() => {
+                    setShowCounterCheckout(true);
+                    setShow(false);
+                  })
+                  .catch((err) => {
+                    console.log(err);
+                  });
+              }}
+            >
+              櫃檯結帳
             </Button>
-            <Button size="lg" className="p-5" variant="warning">線上結帳</Button>
+            <Button size="lg" className="p-5" variant="warning">
+              線上結帳
+            </Button>
           </div>
         </Modal.Body>
       </Modal>
@@ -111,10 +145,10 @@ const SendOrderBtn = (props) => {
         </Modal.Header>
         <Modal.Body>
           <h5>訂單已送出!</h5>
-          <h5>訂單編號:{orderform_id}</h5>
-          <h5>訂單桌號:{tablenum}</h5>
-          <h5>訂單時間:{rescheckoutdata.create_time}</h5>
-          <h5>訂單總金額:{rescheckoutdata.total_price}</h5>
+          <h6>訂單編號:{orderformId}</h6>
+          <h6>訂單桌號:{tablenum}</h6>
+          <h6>訂單時間:{rescheckoutdata.create_time}</h6>
+          <h6>訂單總金額:{rescheckoutdata.total_price}</h6>
         </Modal.Body>
         <Modal.Footer>
           <Button
@@ -130,7 +164,6 @@ const SendOrderBtn = (props) => {
             onClick={() => {
               setShowCounterCheckout(false);
               window.location.href = "/";
-
             }}
           >
             完成

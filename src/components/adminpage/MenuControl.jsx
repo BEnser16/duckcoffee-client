@@ -136,7 +136,7 @@ const MenuControl = () => {
                     style={{ width: "18rem" }}
                     id={index}
                   >
-                    <img src={item.img} class="card-img-top" alt="coffee" />
+                    <img src={item.img} style={{maxHeight:"150px"}} class="card-img-top" alt="coffee" />
                     <div class="card-body">
                       <h3>{item.name}</h3>
                       <p class="card-text">{item.description}</p>
@@ -163,7 +163,7 @@ const MenuControl = () => {
                     class="card border-dark m-2"
                     style={{ width: "18rem" }}
                   >
-                    <img src={item.img} class="card-img-top" alt="coffee" />
+                    <img src={item.img} style={{maxHeight:"200px"}} class="card-img-top" alt="coffee" />
                     <div class="card-body">
                       <h3>{item.name}</h3>
                       <p class="card-text">{item.description}</p>
@@ -191,7 +191,7 @@ const MenuControl = () => {
                     class="card border-dark m-2"
                     style={{ width: "18rem" }}
                   >
-                    <img src={item.img} class="card-img-top" alt="coffee" />
+                    <img src={item.img} style={{maxHeight:"200px"}} class="card-img-top" alt="coffee" />
                     <div class="card-body">
                       <h3>{item.name}</h3>
                       <p class="card-text">{item.description}</p>
@@ -219,7 +219,7 @@ const MenuControl = () => {
                     class="card border-dark m-2"
                     style={{ width: "18rem" }}
                   >
-                    <img src={item.img} class="card-img-top" alt="coffee" />
+                    <img src={item.img} style={{maxHeight:"150px"}} class="card-img-top" alt="coffee" />
                     <div class="card-body">
                       <h3>{item.name}</h3>
                       <p class="card-text">{item.description}</p>

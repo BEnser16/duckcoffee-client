@@ -5,8 +5,8 @@ const API_URL = "http://localhost:8080/api/orderForms"
 
 class OrderFormService {
 
-    createOrderForm(create_time , last_update_time, table_number , total_price) {
-        return axios.post(API_URL , {create_time , last_update_time, table_number , total_price});
+    createOrderForm(create_time ,form_status, last_update_time, table_number , total_price) {
+        return axios.post(API_URL , {create_time ,form_status, last_update_time, table_number , total_price});
     }
 
     getAllOrderForm() {
@@ -21,8 +21,8 @@ class OrderFormService {
         return axios.delete(API_URL + "/" + id);
     }
 
-    updateOrderFormById(id , create_time , last_update_time, table_number , total_price) {
-        return axios.patch(API_URL + "/" + id , {create_time , last_update_time, table_number , total_price});
+    updateOrderFormById(id , create_time , form_status ,last_update_time, table_number , total_price) {
+        return axios.patch(API_URL + "/" + id , {create_time , form_status,last_update_time, table_number , total_price});
     }    
 
 }

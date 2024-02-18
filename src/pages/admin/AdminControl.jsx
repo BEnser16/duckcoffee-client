@@ -2,6 +2,7 @@ import React from "react";
 import { useState } from "react";
 import MenuControl from "../../components/adminpage/MenuControl";
 import PostControl from "../../components/adminpage/PostControl";
+import OrderControl from "../../components/adminpage/orderManage/OrderControl";
 
 const AdminControl = () => {
   function handleManageMode(selectMode) {
@@ -38,14 +39,12 @@ const AdminControl = () => {
           >
             點餐管理
           </button>
-          <button
+          <a
             class="nav-link"
-            data-bs-toggle="tab"
-            data-bs-target="#booking-pane"
-            onClick={() => handleManageMode("booking")}
+            href="/admin/booking"
           >
             訂位管理
-          </button>
+          </a>
           <button
             class="nav-link"
             data-bs-toggle="tab"
@@ -73,17 +72,9 @@ const AdminControl = () => {
             aria-labelledby="order-tab"
             tabindex="0"
           >
-            ...
+            <OrderControl/>
           </div>
-          <div
-            class="tab-pane fade"
-            id="booking-pane"
-            role="tabpanel"
-            aria-labelledby="booking-tab"
-            tabindex="0"
-          >
-            ...
-          </div>
+          
           <div
             class="tab-pane fade"
             id="post-pane"
