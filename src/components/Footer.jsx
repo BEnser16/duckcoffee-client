@@ -1,17 +1,18 @@
 import React from "react";
+import { Container, Row, Col } from "react-bootstrap";
 
 const Footer = () => {
   return (
-    <div>
-      <footer
-        className="d-flex flex-wrap 
-                 py-5 bg-dark"
-      >
-        <div className="container">
-          <p className="col-md-4 text-white">© Duck Coffee, Inc</p>
-        </div>
-      </footer>
-    </div>
+    <footer className="bg-dark text-white py-4">
+      <Container>
+
+        <Row>
+          <Col className="text-center py-3">
+            © 2023 Duck Coffee, Inc. All rights reserved.
+          </Col>
+        </Row>
+      </Container>
+    </footer>
   );
 };
 

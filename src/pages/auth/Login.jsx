@@ -61,10 +61,9 @@ const Login = () => {
 
 
   return (
-    <div className="container">
+    <div className="container d-flex justify-content-center align-items-center" style={{minHeight:"80vh"}} >
       <TextToast message={"登入成功！"} show={showToast} />
-      <div className="row mt-5">
-        <div className="col-6 mx-auto">
+        <div className="col-6">
           <div class="mb-3 row">
             <div className="row mb-3">
               <h2>歡迎登入</h2>
@@ -93,7 +92,6 @@ const Login = () => {
           
         </div>
       </div>
-    </div>
   );
 };
 

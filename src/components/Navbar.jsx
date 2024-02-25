@@ -71,6 +71,11 @@ const Navbar = (props) => {
                   我要點餐
                 </a>
               </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/intro-system">
+                  系統介紹
+                </a>
+              </li>
             </ul>
             {currentUser && (
               <div className="dropdown-center">
@@ -94,16 +99,6 @@ const Navbar = (props) => {
                   <li>
                     <a class="dropdown-item" href="/admin/user-info">
                       用戶資訊
-                    </a>
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="/admin">
-                      控制中心
-                    </a>
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="/admin/table-control">
-                      桌位管理
                     </a>
                   </li>
                   
