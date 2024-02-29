@@ -1,5 +1,6 @@
 import React from "react";
 import { AuthService } from "../service/AuthService";
+import { DoorOpen } from "react-bootstrap-icons";
 
 const Navbar = (props) => {
   let {currentUser , setCurrentUser} = props;
@@ -112,7 +113,8 @@ const Navbar = (props) => {
               </div>
             )}
             {!currentUser && (
-              <a href="/login" class="btn btn-success" type="submit">
+              <a href="/login" class="btn btn-success d-flex align-items-center" type="submit" >
+                <DoorOpen className="me-2" />
                 會員登入
               </a>
             )}

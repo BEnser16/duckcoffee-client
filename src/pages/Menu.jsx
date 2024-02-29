@@ -56,7 +56,9 @@ const Menu = () => {
 
   return (
     <div className="container">
-      <div className="row mt-5">
+      <h3 className="my-4">餐點介紹</h3>
+      <div className="row p-4 mb-4">
+      <div className="row">
         <ul class="nav nav-tabs">
           <li class="nav-item">
             <button
@@ -123,6 +125,7 @@ const Menu = () => {
             <SaladMenu mode={mode} saladItems={saladItems} />
           )}
         </div>
+      </div>
       </div>
     </div>
   );

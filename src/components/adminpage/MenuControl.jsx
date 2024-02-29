@@ -75,8 +75,8 @@ const MenuControl = () => {
   }, []);
 
   return (
-    <div>
-      <div className="row mt-5">
+    <div className="container ms-4" >
+      <div className="mt-5">
         {/** menu control option */}
         <ul class="nav nav-tabs">
           <li class="nav-item">
@@ -133,7 +133,7 @@ const MenuControl = () => {
                   <div
                     key={index}
                     class="card border-dark m-2"
-                    style={{ width: "18rem" }}
+                    style={{ width: "16rem" }}
                     id={index}
                   >
                     <img src={item.img} style={{maxHeight:"150px"}} class="card-img-top" alt="coffee" />
@@ -161,7 +161,7 @@ const MenuControl = () => {
                   <div
                     key={index}
                     class="card border-dark m-2"
-                    style={{ width: "18rem" }}
+                    style={{ width: "16rem" }}
                   >
                     <img src={item.img} style={{maxHeight:"200px"}} class="card-img-top" alt="coffee" />
                     <div class="card-body">
@@ -189,7 +189,7 @@ const MenuControl = () => {
                   <div
                     key={index}
                     class="card border-dark m-2"
-                    style={{ width: "18rem" }}
+                    style={{ width: "16rem" }}
                   >
                     <img src={item.img} style={{maxHeight:"200px"}} class="card-img-top" alt="coffee" />
                     <div class="card-body">
@@ -217,7 +217,7 @@ const MenuControl = () => {
                   <div
                     key={index}
                     class="card border-dark m-2"
-                    style={{ width: "18rem" }}
+                    style={{ width: "16rem" }}
                   >
                     <img src={item.img} style={{maxHeight:"150px"}} class="card-img-top" alt="coffee" />
                     <div class="card-body">

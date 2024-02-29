@@ -40,16 +40,6 @@ const Login = () => {
       console.log("set localstorage item user-info: " , login_user_jsonstr);
       dispatch(login());
       setShowToast(true);
-      
-
-
-      if(email === 'admin@gmail.com') {
-        window.location.href = "http://localhost:3000/admin";
-      } else {
-        window.location.href = "http://localhost:3000/";
-      }
-
-
 
     }).catch((err) =>{
       console.error("send login request error.");

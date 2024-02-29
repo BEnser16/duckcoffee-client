@@ -12,6 +12,13 @@ import AdminLogin from "../pages/admin/AdminLogin";
 import AppLayout from "../AppLayout";
 import IntroSystem from "../pages/IntroSystem";
 import AdminPage from "../pages/AdminPage";
+import OrderControl from "../components/adminpage/orderManage/OrderControl";
+import MenuControl from "../components/adminpage/MenuControl";
+import PostControl from "../components/adminpage/PostControl";
+import TableControl from "../components/adminpage/TableControl";
+import BookingControl from "../components/adminpage/bookingManage/BookingControl";
+import AdminDashboard from "../components/adminpage/AdminDashboard";
+
 
 export const baseRouter = createBrowserRouter([
     {
@@ -66,8 +73,38 @@ export const baseRouter = createBrowserRouter([
         element: <AdminLogin />,
     },
     {
-      path:"/admin/dashboard",
-      element: <AdminPage />
+      path:"/admin/",
+      element: <AdminPage />,
+      children: [
+        {
+          path: "",
+          element: <AdminDashboard />,
+        },
+        {
+          path: "order-control",
+          element: <OrderControl />,
+        },
+        {
+          path: "menu-control",
+          element: <MenuControl />,
+        },
+        {
+          path: "post-control",
+          element: <PostControl />,
+        },
+        {
+          path: "table-control",
+          element: <TableControl />,
+        },
+        {
+          path: "booking-control",
+          element: <BookingControl />,
+        },
+        {
+          path: "role-control",
+          element: <OrderControl />,
+        },
+      ]
 
     }
     

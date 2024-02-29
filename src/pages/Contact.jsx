@@ -55,13 +55,7 @@ const Contact = () => {
           </Form>
         </Col>
       </Row>
-      <Row className="mt-5">
-        <Col md={4} className="text-center">
-          <p><strong>地址：</strong>您的地址</p>
-          <p><strong>電話：</strong>(123) 456-7890</p>
-          <p><strong>電子郵件：</strong>info@duckcoffee.com</p>
-        </Col>
-      </Row>
+      
     </Container>
   );
 };
