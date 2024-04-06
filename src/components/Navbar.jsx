@@ -1,16 +1,22 @@
 import React from "react";
-import { AuthService } from "../service/AuthService";
 import { DoorOpen } from "react-bootstrap-icons";
+import { useDispatch } from "react-redux";
+import { logout } from "../slice/userSlice";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
-const Navbar = (props) => {
-  let {currentUser , setCurrentUser} = props;
+
+const Navbar = () => {
+  
+  const dispatch = useDispatch();
+  const useritem = useSelector((state) => state.user.user);
 
   const handleLogout = () => {
-    AuthService.logout();
-    window.alert("Logout successfully! now redirect to the home page. ");  
-    setCurrentUser(null);
-    window.location.href = "http://localhost:3000/";
+    window.alert("Logout successfully! now redirect to the home page. "); 
+    dispatch(logout()); 
   };
+
+
 
 
 
@@ -21,6 +27,7 @@ const Navbar = (props) => {
         data-bs-theme="light"
       >
         <div class="container-fluid">
+          
           <a class="navbar-brand" href="/">
             <b>DUCK COFFEE</b>
           </a>
@@ -38,47 +45,48 @@ const Navbar = (props) => {
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="/">
+                <Link to="/" className="nav-link" >
                   首頁
-                </a>
+                </Link>
+                
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="/news">
+                <Link to="/news" class="nav-link" >
                   最新消息
-                </a>
+                </Link>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="/about">
+                <Link to="/about" class="nav-link" >
                   關於我們
-                </a>
+                </Link>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="/contact">
+                <Link class="nav-link" to="/contact">
                   聯絡我們
-                </a>
+                </Link>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="/menu">
+                <Link class="nav-link" to="/menu">
                   餐點介紹
-                </a>
+                </Link>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="/booking">
+                <Link class="nav-link" to="/booking">
                   線上訂位
-                </a>
+                </Link>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="/order">
+                <Link class="nav-link" to="/order">
                   我要點餐
-                </a>
+                </Link>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="/intro-system">
+                <Link class="nav-link" to="/intro-system">
                   系統介紹
-                </a>
+                </Link>
               </li>
             </ul>
-            {currentUser && (
+            {useritem && (
               <div className="dropdown-center">
                 <button
                   className="btn dropdown-toggle"
@@ -90,17 +98,17 @@ const Navbar = (props) => {
                       maxHeight: 50,
                       maxWidth: 50,
                       borderRadius: "50%",
-                      objectFit: "cover",
+                      objectFit: "contain",
                     }}
-                    src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=2942&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                    alt="admin avatar"
+                    src="https://via.placeholder.com/150"
+                    alt="user avatar"
                   />
                 </button>
                 <ul class="dropdown-menu">
                   <li>
-                    <a class="dropdown-item" href="/admin/user-info">
+                    <Link class="dropdown-item" to="/user-config">
                       用戶資訊
-                    </a>
+                    </Link>
                   </li>
                   
                   <li>
@@ -112,11 +120,11 @@ const Navbar = (props) => {
                 </ul>
               </div>
             )}
-            {!currentUser && (
-              <a href="/login" class="btn btn-success d-flex align-items-center" type="submit" >
+            {useritem == null && (
+              <Link to="/login" class="btn btn-success d-flex align-items-center" type="submit" >
                 <DoorOpen className="me-2" />
                 會員登入
-              </a>
+              </Link>
             )}
           </div>
         </div>

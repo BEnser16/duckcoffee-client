@@ -5,16 +5,20 @@ const initialState = {
     user:null,
 };
 
+
 export const userSlice = createSlice({
     name:"user",
     initialState,
     reducers:{
-        login(state) {
-            state.user = localStorage.getItem("user-info");
+        login(state , action) {
+            state.user = action.payload;
+            localStorage.setItem("user-info" , JSON.stringify(action.payload));
+            
         },
         logout(state) {
-            localStorage.removeItem("user-info");
             state.user = null;
+            localStorage.removeItem("user-info");
+            
         }
     }
 })

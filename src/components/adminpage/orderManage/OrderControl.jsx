@@ -6,12 +6,21 @@ import { OrderItemService } from "../../../service/OrderItemService";
 import { ReturnIDfromUri } from "../../../utils/ReturnIDfromUri";
 import MakeSureModal from "../../../utils/MakeSureModal";
 import axios from "axios";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { clearNewOrder } from "../../../slice/newOrderSlice";
+import EditOrderBtn from "./EditOrderBtn";
 
 const OrderControl = () => {
   const [orderForms, setOrderForms] = useState([]);
   const [orderItems, setOrderItems] = useState([]);
   const [showMakesure, setShowMakesure] = useState(false);
   const [selectDeleteId, setSelectDeleteId] = useState();
+
+  const dispatch = useDispatch();
+
+  // new order state
+  const isNewOrder = useSelector((state) => state.newOrder.isNewOrder);
 
   useEffect(() => {
     const parseOrderItemData = async () => {
@@ -57,7 +66,10 @@ const OrderControl = () => {
     };
 
     parseOrderItemData();
-  }, []); // 依赖数组为空，表示只在组件挂载时执行
+    // 把newOrder設定為false 表示處理完訂單刷新
+    dispatch(clearNewOrder());
+
+  }, [isNewOrder , dispatch]); 
 
   async function deleteOrderForm(id) {
     try {
@@ -138,7 +150,7 @@ const OrderControl = () => {
                   <Card.Body>
                     <div className="d-flex align-items-center">
                       <Card.Title>訂單編號: {form.orderFormId} </Card.Title>
-                      <Button className="ms-auto">編輯</Button>
+                      <EditOrderBtn  setOrderForm={setOrderForms} orderForm={form}  />
                     
                     </div>
                     <p className="mt-2">桌號: {form.table_number}<br/>
@@ -159,7 +171,7 @@ const OrderControl = () => {
                               <td>
                                 <img
                                   src={item.menuItemDetails.img}
-                                  style={{ maxHight: "30px", maxWidth: "30px" }}
+                                  style={{ height: "30px", width: "30px" , objectFit: "cover"}}
                                   alt=""
                                 />
                               </td>

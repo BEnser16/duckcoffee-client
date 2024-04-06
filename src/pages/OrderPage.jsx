@@ -1,9 +1,10 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState, useEffect  } from "react";
 import { MenuService } from "../service/MenuService";
 import { Nav } from "react-bootstrap";
 import OrderMenu from "../components/orderpage/OrderMenu";
 import CheckCartBtn from "../components/orderpage/CheckCartBtn";
+import { useLocation } from "react-router-dom";
 
 
 
@@ -14,12 +15,23 @@ const OrderPage = () => {
   const [sandwichItems, setSandwichItems] = useState([]);
   const [dessertItems, setDessertItems] = useState([]);
   const [saladItems, setSaladItems] = useState([]);
+  const [tableNum, setTableNum] = useState(0);
+
+  const location = useLocation();
+
 
   function handleManageMode(selectMode) {
     if (selectMode !== mode) {
       setMode(selectMode);
     }
   }
+
+  useEffect(() => {
+    const query = new URLSearchParams(location.search);
+    const tableNumber = query.get('table-number');
+    console.log("query table number: ", tableNumber);
+    setTableNum(tableNumber);
+  }, [location]);
 
   useEffect(() => {
     MenuService.getAllMenuItem()
@@ -80,7 +92,12 @@ const OrderPage = () => {
           </Nav.Item>
         </Nav>
         <div className="d-flex mt-3">
-          <CheckCartBtn cart={cart} setCart={setCart} />
+          {tableNum === 0 ? (
+            <h6>加載中</h6>
+          ) :(
+            <CheckCartBtn tableNum={tableNum} cart={cart} setCart={setCart} />
+
+          )}
 
         </div>
       </div>

@@ -2,6 +2,7 @@ import React from "react";
 import { Container, Button, Dropdown, Form, InputGroup } from "react-bootstrap";
 import Table from "react-bootstrap/Table";
 import { TableService } from "../../service/TableService";
+import {QRCodeSVG} from 'qrcode.react';
 import axios from "axios";
 
 const TableControl = () => {
@@ -97,6 +98,7 @@ const TableControl = () => {
               <th>桌號</th>
               <th>人數</th>
               <th>操作</th>
+              <th>點餐 QRCODE</th>
             </tr>
           </thead>
           <tbody>
@@ -110,6 +112,9 @@ const TableControl = () => {
                       刪除
                     </Button>
                     <Button variant="warning">編輯</Button>
+                  </td>
+                  <td>
+                    <QRCodeSVG value={`http://localhost:3000/order?table-number=${table.tableNumber}`} size={70} />
                   </td>
                 </tr>
               );

@@ -5,7 +5,7 @@ import SendOrderBtn from "./SendOrderBtn";
 
 const CheckCartBtn = (props) => {
   const [show, setShow] = useState(false);
-  const [tablenum , setTablenum] = useState(1);
+  const [tablenum , setTablenum] = useState(props.tableNum);
 
   let cart  = props.cart;
   let setCart = props.setCart;

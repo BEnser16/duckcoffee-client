@@ -18,6 +18,8 @@ import PostControl from "../components/adminpage/PostControl";
 import TableControl from "../components/adminpage/TableControl";
 import BookingControl from "../components/adminpage/bookingManage/BookingControl";
 import AdminDashboard from "../components/adminpage/AdminDashboard";
+import UserConfig from "../pages/UserConfig";
+import RoleControl from "../components/adminpage/RoleControl";
 
 
 export const baseRouter = createBrowserRouter([
@@ -64,6 +66,10 @@ export const baseRouter = createBrowserRouter([
           {
             path: "/intro-system",
             element: <IntroSystem />,
+          },
+          {
+            path:"/user-config",
+            element: <UserConfig />,
           }
       ],
     },
@@ -102,7 +108,7 @@ export const baseRouter = createBrowserRouter([
         },
         {
           path: "role-control",
-          element: <OrderControl />,
+          element: <RoleControl />,
         },
       ]
 

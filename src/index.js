@@ -6,17 +6,24 @@ import { baseRouter } from "./router/BaseRouter";
 import { Provider } from "react-redux";
 import { store } from "./store";
 import { ToastProvider } from "./utils/ToastManager";
+import { login } from "./slice/userSlice";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
+// load local storage user info into redux store
+const user = JSON.parse(localStorage.getItem("user-info"));
+if (user) {
+  store.dispatch(login(user));
+}
+
 root.render(
   <React.StrictMode>
-    <Provider store={store}>
-      <ToastProvider>
+    <ToastProvider>
+      <Provider store={store}>
         <RouterProvider router={baseRouter}>
           <App />
         </RouterProvider>
-      </ToastProvider>
-    </Provider>
+      </Provider>
+    </ToastProvider>
   </React.StrictMode>
 );

@@ -25,9 +25,6 @@ const Login = () => {
   async function handleLoginSubmit(e) {
     e.preventDefault();
     AuthService.login(email , password).then((res) => {
-      console.log("send login request.");
-      console.log("login response: " , res.data);
-      console.log("res email" , res.data.email);
       
       const login_userObj = {
         user_name:res.data.email,
@@ -35,10 +32,7 @@ const Login = () => {
         user_email:res.data.email
       }
 
-      const login_user_jsonstr = JSON.stringify(login_userObj);
-      localStorage.setItem("user-info" , login_user_jsonstr);
-      console.log("set localstorage item user-info: " , login_user_jsonstr);
-      dispatch(login());
+      dispatch(login(login_userObj));
       setShowToast(true);
 
     }).catch((err) =>{

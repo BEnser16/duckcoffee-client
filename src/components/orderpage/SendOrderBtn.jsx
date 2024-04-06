@@ -3,6 +3,10 @@ import { Button, Modal } from "react-bootstrap";
 import { useState } from "react";
 import { OrderFormService } from "../../service/OrderFormService";
 import { OrderItemService } from "../../service/OrderItemService";
+import { useDispatch } from 'react-redux';
+import { setNewOrder } from "../../slice/newOrderSlice";
+
+
 
 const SendOrderBtn = (props) => {
   let cart = props.cart;
@@ -13,6 +17,9 @@ const SendOrderBtn = (props) => {
   const [show, setShow] = useState(false);
   const [showCounterCheckout, setShowCounterCheckout] = useState(false);
 
+  // dispatch
+  const dispatch = useDispatch();
+
   // 計算總價
   const getTotalPrice = () => {
     let total_price = 0;
@@ -22,6 +29,7 @@ const SendOrderBtn = (props) => {
 
     return total_price;
   };
+
 
   async function handleSendCounterCheckout() {
     let total_price = getTotalPrice();
@@ -49,6 +57,9 @@ const SendOrderBtn = (props) => {
             responseOrderformId
           );
         }
+
+        // set order form state to redux store
+        dispatch(setNewOrder());
 
         setRescheckoutdata(res.data);
 
