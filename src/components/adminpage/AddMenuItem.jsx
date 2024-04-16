@@ -56,42 +56,42 @@ const AddMenuItem = () => {
         id="addmenuItem"
         data-bs-backdrop="static"
         data-bs-keyboard="false"
-        tabindex="-1"
+        tabIndex="-1"
         aria-labelledby="staticBackdropLabel"
         aria-hidden="true"
       >
         <div className="modal-dialog modal-dialog-centered">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h1 class="modal-title fs-5" id="staticBackdropLabel">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h1 className="modal-title fs-5" id="staticBackdropLabel">
                 新增餐點品項
               </h1>
               <button
                 type="button"
-                class="btn-close"
+                className="btn-close"
                 data-bs-dismiss="modal"
                 aria-label="Close"
               ></button>
             </div>
-            <div class="modal-body">
+            <div className="modal-body">
               <div className="input-group mb-3">
-                <span class="input-group-text" id="inputGroup-sizing-default">
+                <span className="input-group-text" id="inputGroup-sizing-default">
                   餐點名稱
                 </span>
                 <input
                   type="text"
-                  class="form-control"
+                  className="form-control"
                   value={name}
                   onChange={handleInputName}
                   placeholder="請輸入餐點名稱"
                 />
               </div>
               <div className="input-group mb-3">
-                <span class="input-group-text" id="inputGroup-sizing-default">
+                <span className="input-group-text" id="inputGroup-sizing-default">
                   餐點描述
                 </span>
                 <textarea
-                  class="form-control"
+                  className="form-control"
                   id="exampleFormControlTextarea1"
                   rows="3"
                   placeholder="請輸入餐點描述"
@@ -100,66 +100,66 @@ const AddMenuItem = () => {
                 ></textarea>
               </div>
               <div className="input-group mb-3">
-                <span class="input-group-text" id="inputGroup-sizing-default">
+                <span className="input-group-text" id="inputGroup-sizing-default">
                   價格
                 </span>
                 <input
                   type="text"
-                  class="form-control"
+                  className="form-control"
                   placeholder="請輸入餐點價格"
                   value={price}
-                  handleInputPrice={handleInputPrice}
+                  onChange={handleInputPrice}
                 />
 
-                <div class="dropdown mx-2">
+                <div className="dropdown mx-2">
                   <button
-                    class="btn btn-secondary dropdown-toggle"
+                    className="btn btn-secondary dropdown-toggle"
                     type="button"
                     data-bs-toggle="dropdown"
                     aria-expanded="false"
                   >
                     {category}
                   </button>
-                  <ul class="dropdown-menu">
+                  <ul className="dropdown-menu">
                     <li>
-                      <button class="dropdown-item" onClick={() => handleSelectCategory("coffee")} >
+                      <button className="dropdown-item" onClick={() => handleSelectCategory("coffee")} >
                         咖啡
                       </button>
                     </li>
                     <li>
-                      <button class="dropdown-item" onClick={() => handleSelectCategory("sandwich")} >
+                      <button className="dropdown-item" onClick={() => handleSelectCategory("sandwich")} >
                         三明治
                       </button>
                     </li>
                     <li>
-                      <button class="dropdown-item" onClick={() => handleSelectCategory("desert")} >
+                      <button className="dropdown-item" onClick={() => handleSelectCategory("desert")} >
                         甜點
                       </button>
                     </li>
                     <li>
-                      <button class="dropdown-item" onClick={() => handleSelectCategory("salad")} >
+                      <button className="dropdown-item" onClick={() => handleSelectCategory("salad")} >
                         沙拉
                       </button>
                     </li>
                   </ul>
                 </div>
               </div>
-              <div class="mb-3">
-                <label for="formFile" class="form-label">
+              <div className="mb-3">
+                <label htmlFor="formFile" className="form-label">
                   上傳餐點圖片
                 </label>
-                <input class="form-control" type="file" id="formFile" onChange={() => handleImgFile} />
+                <input className="form-control" type="file" id="formFile" onChange={() => handleImgFile} />
               </div>
             </div>
-            <div class="modal-footer">
+            <div className="modal-footer">
               <button
                 type="button"
-                class="btn btn-secondary"
+                className="btn btn-secondary"
                 data-bs-dismiss="modal"
               >
                 取消
               </button>
-              <button type="button" class="btn btn-primary" onClick={() => handleCreateMenuItem(name , description , price , category , img)} >
+              <button type="button" className="btn btn-primary" onClick={() => handleCreateMenuItem(name , description , price , category , img)} >
                 完成
               </button>
             </div>

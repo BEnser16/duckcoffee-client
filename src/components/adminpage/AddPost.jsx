@@ -52,38 +52,38 @@ const AddPost = () => {
           id="addPost"
           data-bs-backdrop="static"
           data-bs-keyboard="false"
-          tabindex="-1"
+          tabIndex="-1"
           aria-labelledby="staticBackdropLabel"
           aria-hidden="true"
         >
           <div className="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h1 class="modal-title fs-5" id="staticBackdropLabel">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h1 className="modal-title fs-5" id="staticBackdropLabel">
                   新增消息
                 </h1>
                 <button
                   type="button"
-                  class="btn-close"
+                  className="btn-close"
                   data-bs-dismiss="modal"
                   aria-label="Close"
                 ></button>
               </div>
-              <div class="modal-body">
+              <div className="modal-body">
                 <div className="input-group mb-3">
-                  <span class="input-group-text">標題</span>
+                  <span className="input-group-text">標題</span>
                   <input
                     type="text"
-                    class="form-control"
+                    className="form-control"
                     value={title}
                     onChange={handleInputTitle}
                     placeholder="請輸入消息標題"
                   />
                 </div>
                 <div className="input-group mb-3">
-                  <span class="input-group-text">消息描述</span>
+                  <span className="input-group-text">消息描述</span>
                   <textarea
-                    class="form-control"
+                    className="form-control"
                     id="exampleFormControlTextarea1"
                     rows="3"
                     placeholder="請輸入消息描述"
@@ -91,29 +91,29 @@ const AddPost = () => {
                     onChange={handleInputDescription}
                   ></textarea>
                 </div>
-                <div class="mb-3">
-                  <label for="formFile" class="form-label">
+                <div className="mb-3">
+                  <label htmlFor="formFile" className="form-label">
                     上傳消息封面
                   </label>
                   <input
-                    class="form-control"
+                    className="form-control"
                     type="file"
                     id="formFile"
                     onChange={() => handleCoverImgFile}
                   />
                 </div>
               </div>
-              <div class="modal-footer">
+              <div className="modal-footer">
                 <button
                   type="button"
-                  class="btn btn-secondary"
+                  className="btn btn-secondary"
                   data-bs-dismiss="modal"
                 >
                   取消
                 </button>
                 <button
                   type="button"
-                  class="btn btn-primary"
+                  className="btn btn-primary"
                   onClick={() =>
                     handleCreatePost(title, description, coverImg)
                   }

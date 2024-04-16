@@ -78,10 +78,10 @@ const MenuControl = () => {
     <div className="container ms-4" >
       <div className="mt-5">
         {/** menu control option */}
-        <ul class="nav nav-tabs">
-          <li class="nav-item">
+        <ul className="nav nav-tabs">
+          <li className="nav-item">
             <button
-              class="nav-link active"
+              className="nav-link active"
               data-bs-toggle="tab"
               aria-current="page"
               onClick={() => handleManageMode("coffee-tab")}
@@ -89,27 +89,27 @@ const MenuControl = () => {
               咖啡
             </button>
           </li>
-          <li class="nav-item">
+          <li className="nav-item">
             <button
-              class="nav-link"
+              className="nav-link"
               data-bs-toggle="tab"
               onClick={() => handleManageMode("sandwich-tab")}
             >
               三明治
             </button>
           </li>
-          <li class="nav-item">
+          <li className="nav-item">
             <button
-              class="nav-link"
+              className="nav-link"
               data-bs-toggle="tab"
               onClick={() => handleManageMode("dessert-tab")}
             >
               甜點
             </button>
           </li>
-          <li class="nav-item">
+          <li className="nav-item">
             <button
-              class="nav-link"
+              className="nav-link"
               data-bs-toggle="tab"
               onClick={() => handleManageMode("salad-tab")}
             >
@@ -132,14 +132,14 @@ const MenuControl = () => {
                 return (
                   <div
                     key={index}
-                    class="card border-dark m-2"
+                    className="card border-dark m-2"
                     style={{ width: "16rem" }}
                     id={index}
                   >
-                    <img src={item.img} style={{maxHeight:"150px"}} class="card-img-top" alt="coffee" />
-                    <div class="card-body">
+                    <img src={item.img} style={{maxHeight:"150px"}} className="card-img-top" alt="coffee" />
+                    <div className="card-body">
                       <h3>{item.name}</h3>
-                      <p class="card-text">{item.description}</p>
+                      <p className="card-text">{item.description}</p>
                       <h5>${item.price}</h5>
                       <div className="d-flex">
                         <button className="btn btn-danger" onClick={() => handleDeleteMenuItem(item._links.self.href)} >刪除</button>
@@ -160,13 +160,13 @@ const MenuControl = () => {
                 return (
                   <div
                     key={index}
-                    class="card border-dark m-2"
+                    className="card border-dark m-2"
                     style={{ width: "16rem" }}
                   >
-                    <img src={item.img} style={{maxHeight:"200px"}} class="card-img-top" alt="coffee" />
-                    <div class="card-body">
+                    <img src={item.img} style={{maxHeight:"200px"}} className="card-img-top" alt="coffee" />
+                    <div className="card-body">
                       <h3>{item.name}</h3>
-                      <p class="card-text">{item.description}</p>
+                      <p className="card-text">{item.description}</p>
                       <h5>${item.price}</h5>
 
                       <div className="d-flex">
@@ -188,13 +188,13 @@ const MenuControl = () => {
                 return (
                   <div
                     key={index}
-                    class="card border-dark m-2"
+                    className="card border-dark m-2"
                     style={{ width: "16rem" }}
                   >
-                    <img src={item.img} style={{maxHeight:"200px"}} class="card-img-top" alt="coffee" />
-                    <div class="card-body">
+                    <img src={item.img} style={{maxHeight:"200px"}} className="card-img-top" alt="coffee" />
+                    <div className="card-body">
                       <h3>{item.name}</h3>
-                      <p class="card-text">{item.description}</p>
+                      <p className="card-text">{item.description}</p>
                       <h5>${item.price}</h5>
 
                       <div className="d-flex">
@@ -216,13 +216,13 @@ const MenuControl = () => {
                 return (
                   <div
                     key={index}
-                    class="card border-dark m-2"
+                    className="card border-dark m-2"
                     style={{ width: "16rem" }}
                   >
-                    <img src={item.img} style={{maxHeight:"150px"}} class="card-img-top" alt="coffee" />
-                    <div class="card-body">
+                    <img src={item.img} style={{maxHeight:"150px"}} className="card-img-top" alt="coffee" />
+                    <div className="card-body">
                       <h3>{item.name}</h3>
-                      <p class="card-text">{item.description}</p>
+                      <p className="card-text">{item.description}</p>
                       <h5>${item.price}</h5>
 
                       <div className="d-flex">

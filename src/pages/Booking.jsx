@@ -103,6 +103,8 @@ const Booking = () => {
          personPhone: personPhone , startTime: startTime , endTime: endTime , remark: remark , 
          tableSeat: assignTableUri}).then((res) => {
           console.log(res);
+          setModalShow(false);
+          toast.addToast("訂位成功!", "success");
         }).catch((err) => {
           console.log(err);
         });

@@ -1,9 +1,17 @@
-import React from "react";
+import React , {useState} from "react";
 import axios from "axios";
-import { Button } from "react-bootstrap";
+import { AddUser } from "./Role/AddUser";
+import AxiosInstance from "../../service/AxiosInstance";
+import { Modal , Button } from "react-bootstrap";
+import EditUser from "./Role/EditUser";
 
 const RoleControl = () => {
   const [allusers, setAllusers] = React.useState([]);
+  const [show, setShow] = useState(false);
+  const [deleteId, setDeleteId] = useState(null);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   React.useEffect(() => {
     axios
@@ -18,12 +26,22 @@ const RoleControl = () => {
       });
   }, []);
 
+  const handleDelete = (id) => {
+    AxiosInstance.delete(`/api/users/${id}`).then((res) => {
+      console.log("delete user res: ", res);
+      window.alert("刪除使用者成功");
+      window.location.reload();
+    }).catch((err) => {
+      console.error("delete user error: ", err);
+    });
+  }
+
   return (
     <>
       
       <div className="container">
         <h3 className="my-4" >權限控制</h3>
-        <Button variant="success" >新增使用者</Button>
+        <AddUser />
         <div className="row mt-3">
           <div className="col-12">
             <table className="table">
@@ -31,20 +49,25 @@ const RoleControl = () => {
                 <tr>
                   <th scope="col">使用者名稱</th>
                   <th scope="col">使用者郵件</th>
-                  <th scope="col">使用者角色</th>
+                  <th scope="col">權限</th>
                   <th scope="col">操作</th>
                 </tr>
               </thead>
               <tbody>
-                {allusers.map((user) => {
+                {allusers.map((user , index) => {
                   return (
-                    <tr>
+                    <tr key={index} >
                       <td>{user.name}</td>
                       <td>{user.email}</td>
                       <td>{user.role}</td>
                       <td>
-                        <button className="btn btn-primary me-2">修改</button>
-                        <button className="btn btn-danger">刪除</button>
+                        <EditUser editUser={user} />
+                        <button className="btn btn-danger ms-2" onClick={
+                          () => {
+                            handleShow();
+                            setDeleteId(user.id);
+                          }
+                        } >刪除</button>
                       </td>
                     </tr>
                   );
@@ -54,6 +77,20 @@ const RoleControl = () => {
           </div>
         </div>
       </div>
+      <Modal show={show} onHide={handleClose} centered >
+        <Modal.Header closeButton>
+          <Modal.Title>刪除使用者</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>確定要刪除此帳號嗎？</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            取消
+          </Button>
+          <Button variant="danger" onClick={() => handleDelete(deleteId)}>
+            刪除
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </>
   );
 };

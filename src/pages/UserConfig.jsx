@@ -10,6 +10,7 @@ const UserConfig = () => {
   const [userImage, setUserImage] = React.useState(null);
   const [userCloudImageUrl, setUserCloudImageUrl] = React.useState(null);
   const [userName, setUserName] = React.useState("");
+  const [serverImgUrl, setServerImgUrl] = React.useState("");
   const dispatch = useDispatch();
 
   React.useEffect(() => {
@@ -28,6 +29,20 @@ const UserConfig = () => {
         });
     }
   }, []);
+
+  const uploadImageToServer = async () => {
+    const formData = new FormData();
+    formData.append('file', userImage);
+
+    try {
+      const response = await axios.post('http://localhost:8080/api/img/upload', formData);
+      console.log('圖傳到伺服器成功:', response.data);
+      window.alert('圖片上傳成功');
+      setServerImgUrl(response.data);
+    } catch (error) {
+      console.error('圖片上傳失败:', error);
+    }
+  };
 
   const handleImageChange = (e) => {
     console.log("image changing");
@@ -79,6 +94,7 @@ const UserConfig = () => {
         {userData && (
           <div className="d-flex flex-column align-items-center justify-content-center">
             <Row className="col-6 mb-5">
+              <Image src="http://localhost:8080/img/jef.jpg" />
               <Col>
                 {userCloudImageUrl !== null && (
                   <Image
@@ -97,7 +113,7 @@ const UserConfig = () => {
                   <Form.Label>上傳頭像</Form.Label>
                   <Form.Control type="file" onChange={handleImageChange} />
                 </Form.Group>
-                <Button className="mt-2" onClick={() => handleImageUpload()}>
+                <Button variant="primary" className="mt-2" onClick={() => uploadImageToServer()}>
                   上傳新圖片
                 </Button>
               </Col>
@@ -144,9 +160,10 @@ const UserConfig = () => {
                 controlId="formPlaintextPassword"
               >
                 <Col sm="10">
-                  <Button className="mt-5" onClick={() => handleSaveConfig()}>
+                  <Button variant="success" className="mt-5" onClick={() => handleSaveConfig()}>
                     儲存設定
                   </Button>
+                  
                 </Col>
               </Form.Group>
             </Form>

@@ -16,45 +16,45 @@ const AddMenuCategory = () => {
         id="addmenuCategory"
         data-bs-backdrop="static"
         data-bs-keyboard="false"
-        tabindex="-1"
+        tabIndex="-1"
         aria-labelledby="staticBackdropLabel"
         aria-hidden="true"
       >
         <div className="modal-dialog modal-dialog-centered">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h1 class="modal-title fs-5">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h1 className="modal-title fs-5">
                 新增餐點分類
               </h1>
               <button
                 type="button"
-                class="btn-close"
+                className="btn-close"
                 data-bs-dismiss="modal"
                 aria-label="Close"
               ></button>
             </div>
-            <div class="modal-body">
+            <div className="modal-body">
               <div className="input-group mb-3">
-                <span class="input-group-text" id="inputGroup-sizing-default">
+                <span className="input-group-text" id="inputGroup-sizing-default">
                   分類名稱
                 </span>
                 <input
                   type="text"
-                  class="form-control"
+                  className="form-control"
                   placeholder="請輸入分類名稱"
                 />
               </div>
               
             </div>
-            <div class="modal-footer">
+            <div className="modal-footer">
               <button
                 type="button"
-                class="btn btn-secondary"
+                className="btn btn-secondary"
                 data-bs-dismiss="modal"
               >
                 取消
               </button>
-              <button type="button" class="btn btn-primary">
+              <button type="button" className="btn btn-primary">
                 完成
               </button>
             </div>

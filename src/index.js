@@ -8,6 +8,7 @@ import { store } from "./store";
 import { ToastProvider } from "./utils/ToastManager";
 import { login } from "./slice/userSlice";
 
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 // load local storage user info into redux store

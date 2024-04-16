@@ -80,11 +80,7 @@ const Navbar = () => {
                   我要點餐
                 </Link>
               </li>
-              <li class="nav-item">
-                <Link class="nav-link" to="/intro-system">
-                  系統介紹
-                </Link>
-              </li>
+              
             </ul>
             {useritem && (
               <div className="dropdown-center">

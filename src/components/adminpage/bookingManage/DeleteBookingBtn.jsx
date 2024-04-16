@@ -4,6 +4,7 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { ReservationService } from "../../../service/ReservationService";
 
+
 const DeleteBookingBtn = (props) => {
     let href = props.href;
   const [show, setShow] = useState(false);
@@ -15,6 +16,7 @@ const DeleteBookingBtn = (props) => {
     ReservationService.delete(href)
       .then((response) => {
         console.log(response);
+        window.alert("刪除成功");
         window.location.reload();
       })
       .catch((e) => {
@@ -24,7 +26,7 @@ const DeleteBookingBtn = (props) => {
 
   return (
     <>
-      <Button variant="danger" onClick={handleShow}>
+      <Button variant="danger" className="ms-2" onClick={handleShow}>
         刪除
       </Button>
 
@@ -37,7 +39,7 @@ const DeleteBookingBtn = (props) => {
           <Button variant="secondary" onClick={handleClose}>
             取消
           </Button>
-          <Button variant="primary" onClick={() => deleteBooking}>
+          <Button variant="danger" onClick={() => deleteBooking()}>
             確定
           </Button>
         </Modal.Footer>

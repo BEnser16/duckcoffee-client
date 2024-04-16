@@ -38,14 +38,14 @@ const PostControl = () => {
 
   return (
     <div className="row mt-5 m-4">
-      <form class="d-flex" role="search">
+      <form className="d-flex" role="search">
         <input
-          class="form-control me-2"
+          className="form-control me-2"
           type="search"
           placeholder="請輸入消息標題"
           aria-label="Search"
         />
-        <button class="btn btn-outline-success" type="submit">
+        <button className="btn btn-outline-success" type="submit">
           Search
         </button>
       </form>
@@ -56,22 +56,22 @@ const PostControl = () => {
         <div className="row m-4 justify-content-center">
           {posts.map((post, index) => {
             return (
-              <div key={index} class="card m-4">
-                <div class="row g-0">
-                  <div class="col-md-4">
+              <div key={index} className="card m-4">
+                <div className="row g-0">
+                  <div className="col-md-4">
                     <img
                       src={post.cover_img}
-                      class="img-fluid rounded-start"
+                      className="img-fluid rounded-start"
                       alt="..."
                       style={{ maxHeight: "240px" }}
                     />
                   </div>
-                  <div class="col-md-8">
-                    <div class="card-body">
-                      <h5 class="card-title">{post.title}</h5>
-                      <p class="card-text">{post.description}</p>
-                      <p class="card-text">
-                        <small class="text-body-secondary">
+                  <div className="col-md-8">
+                    <div className="card-body">
+                      <h5 className="card-title">{post.title}</h5>
+                      <p className="card-text">{post.description}</p>
+                      <p className="card-text">
+                        <small className="text-body-secondary">
                           {post.create_time}
                         </small>
                       </p>
@@ -85,40 +85,40 @@ const PostControl = () => {
                         刪除
                       </button>
                       <div
-                        class="modal fade"
+                        className="modal fade"
                         id="deletePostModal"
-                        tabindex="-1"
+                        tabIndex="-1"
                         aria-labelledby="deletePostModal"
                         aria-hidden="true"
                       >
-                        <div class="modal-dialog">
-                          <div class="modal-content">
-                            <div class="modal-header">
+                        <div className="modal-dialog">
+                          <div className="modal-content">
+                            <div className="modal-header">
                               <h1
-                                class="modal-title fs-5"
+                                className="modal-title fs-5"
                                 id="exampleModalLabel"
                               >
                                 刪除消息
                               </h1>
                               <button
                                 type="button"
-                                class="btn-close"
+                                className="btn-close"
                                 data-bs-dismiss="modal"
                                 aria-label="Close"
                               ></button>
                             </div>
-                            <div class="modal-body">確定刪除消息？</div>
-                            <div class="modal-footer">
+                            <div className="modal-body">確定刪除消息？</div>
+                            <div className="modal-footer">
                               <button
                                 type="button"
-                                class="btn btn-secondary"
+                                className="btn btn-secondary"
                                 data-bs-dismiss="modal"
                               >
                                 取消
                               </button>
                               <button
                                 type="button"
-                                class="btn btn-primary"
+                                className="btn btn-primary"
                                 onClick={() => handleDeletePost(post)}
                               >
                                 完成

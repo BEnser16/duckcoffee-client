@@ -1,7 +1,8 @@
 import React from 'react'
-import { Container , Table , Button} from 'react-bootstrap'
+import { Container , Table } from 'react-bootstrap'
 import axios from 'axios';
 import DeleteBookingBtn from './DeleteBookingBtn';
+import EditBookingBtn from './EditBookingBtn';
 
 const BookingControl = () => {
   const [bookingData, setBookingData] = React.useState([]);
@@ -28,9 +29,9 @@ const BookingControl = () => {
           <thead>
             <tr>
               <th>日期</th>
+              <th>時間</th>
               <th>姓名</th>
               <th>電話</th>
-              <th>時間</th>
               <th>備註</th>
               <th>操作</th>
             </tr>
@@ -40,16 +41,13 @@ const BookingControl = () => {
               return (
                 <tr key={index}>
                   <td>{reservation.bookingDate}</td>
+                  <td>{reservation.startTime} - {reservation.endTime}</td>
                   <td>{reservation.personName}</td>
                   <td>{reservation.personPhone}</td>
-                  <td>{reservation.startTime} - {reservation.endTime}</td>
                   <td>{reservation.remark}</td>
                   <td>
+                    <EditBookingBtn editReservation={reservation} />
                     <DeleteBookingBtn href={reservation._links.self.href} />
-                    <Button variant="danger" className="me-2"  >
-                      刪除
-                    </Button>
-                    <Button variant="warning">編輯</Button>
                   </td>
                 </tr>
               );
