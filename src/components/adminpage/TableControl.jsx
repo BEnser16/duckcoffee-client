@@ -4,6 +4,7 @@ import Table from "react-bootstrap/Table";
 import { TableService } from "../../service/TableService";
 import {QRCodeSVG} from 'qrcode.react';
 import axios from "axios";
+import EditTableBtn from "./Table/EditTableBtn";
 
 const TableControl = () => {
   const [tableSeats, setTableSeats] = React.useState([]);
@@ -111,7 +112,7 @@ const TableControl = () => {
                     <Button variant="danger" className="me-2" onClick={() => deleteTableSeatById(table._links.self.href)} >
                       刪除
                     </Button>
-                    <Button variant="warning">編輯</Button>
+                    <EditTableBtn editTable={table} />
                   </td>
                   <td>
                     <QRCodeSVG value={`http://localhost:3000/order?table-number=${table.tableNumber}`} size={70} />

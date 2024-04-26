@@ -31,13 +31,13 @@ const MakeSureModal = (props) => {
             取消
           </Button>
           <Button
-            variant="primary"
+            variant="danger"
             onClick={() => {
                 setShowMakesure(false);
                 onConfirm();
            }}
           >
-            確定
+            刪除
           </Button>
             </Modal.Footer>
             

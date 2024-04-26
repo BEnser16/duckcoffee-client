@@ -22,6 +22,14 @@ class OrderItemService {
         return axios.delete(API_URL + "/" + id);
     }
 
+    deleteOrderItemByLink(link) {
+        return axios.delete(link);
+    }
+
+    updateOrderItemByLink(link , orderItem) {
+        return axios.put(link , orderItem);
+    }
+
     updateOrderItemById(id , quantity , menuItem , orderForm , remark , sugar , ice ) {
         return axios.patch(API_URL + "/" + id , {quantity , menuItem , orderForm , remark , sugar , ice});
     }

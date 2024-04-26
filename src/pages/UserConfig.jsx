@@ -1,16 +1,16 @@
 import React from "react";
 import { Container, Image, Col, Row, Form, Button } from "react-bootstrap";
 import axios from "axios";
-import { uploadToStorage } from "../utils/AzureClient";
 import { useDispatch } from "react-redux";
 import { login } from "../slice/userSlice";
+import BaseUrl from "../service/BaseUrl";
 
 const UserConfig = () => {
   const [userData, setUserData] = React.useState({});
   const [userImage, setUserImage] = React.useState(null);
-  const [userCloudImageUrl, setUserCloudImageUrl] = React.useState(null);
+  // const [userCloudImageUrl, setUserCloudImageUrl] = React.useState(null);
   const [userName, setUserName] = React.useState("");
-  const [serverImgUrl, setServerImgUrl] = React.useState("");
+  const [serverImgUrl, setServerImgUrl] = React.useState(null);
   const dispatch = useDispatch();
 
   React.useEffect(() => {
@@ -19,10 +19,12 @@ const UserConfig = () => {
     if (userInfo) {
       axios
         .get(
-          `http://localhost:8080/api/auth/member/get-by-email?email=${userInfo.user_email}`
+          `${BaseUrl}/api/auth/member/get-by-email?email=${userInfo.user_email}`
         )
         .then((res) => {
           setUserData(res.data);
+          setServerImgUrl(res.data.img)
+          console.log("user data get by email", res.data);
         })
         .catch((err) => {
           console.log(err);
@@ -35,10 +37,11 @@ const UserConfig = () => {
     formData.append('file', userImage);
 
     try {
-      const response = await axios.post('http://localhost:8080/api/img/upload', formData);
+      const response = await axios.post(`${BaseUrl}/api/img/upload`, formData);
       console.log('圖傳到伺服器成功:', response.data);
       window.alert('圖片上傳成功');
-      setServerImgUrl(response.data);
+      console.log('server url response.data:', BaseUrl + response.data );
+      setServerImgUrl(BaseUrl + response.data);
     } catch (error) {
       console.error('圖片上傳失败:', error);
     }
@@ -50,33 +53,33 @@ const UserConfig = () => {
     setUserImage(e.target.files[0]);
   };
 
-  const handleImageUpload = async () => {
-    console.log("image uploading");
-    const imgCloudUrl = await uploadToStorage(
-      "usercontainer",
-      userImage.name,
-      userImage
-    );
-    if (imgCloudUrl == null) {
-      console.log("upload failed");
-    } else {
-      setUserCloudImageUrl(imgCloudUrl);
-    }
-    console.log("imgCloudUrl: ", imgCloudUrl);
-  };
+  // const handleImageUpload = async () => {
+  //   console.log("image uploading");
+  //   const imgCloudUrl = await uploadToStorage(
+  //     "usercontainer",
+  //     userImage.name,
+  //     userImage
+  //   );
+  //   if (imgCloudUrl == null) {
+  //     console.log("upload failed");
+  //   } else {
+  //     setUserCloudImageUrl(imgCloudUrl);
+  //   }
+  //   console.log("imgCloudUrl: ", imgCloudUrl);
+  // };
 
   const handleSaveConfig = () => {
     const newUserData = {
-      name: userName,
-      email: userData.email,
-      token: userData.token,
-      imageUrl: userCloudImageUrl,
+      user_name: userName,
+      user_email: userData.email,
+      user_token: userData.token,
+      imageUrl: serverImgUrl,
     };
     dispatch(login(newUserData));
     console.log("new user data: ", newUserData);
     axios
       .put(
-        `http://localhost:3000/api/auth/member/update-user?email=${newUserData.email}&userName=${newUserData.name}&userImg=${newUserData.imageUrl}`
+        `${BaseUrl}/api/auth/member/update-user?email=${newUserData.user_email}&userName=${newUserData.user_name}&userImg=${newUserData.imageUrl}`
       )
       .then((res) => {
         window.alert("用戶資料更新成功");
@@ -94,17 +97,18 @@ const UserConfig = () => {
         {userData && (
           <div className="d-flex flex-column align-items-center justify-content-center">
             <Row className="col-6 mb-5">
-              <Image src="http://localhost:8080/img/jef.jpg" />
+              
               <Col>
-                {userCloudImageUrl !== null && (
+                {serverImgUrl !== null && (
                   <Image
                     style={{ maxHeight: 250, maxWidth: 250 }}
-                    src={userCloudImageUrl}
+                    src={serverImgUrl}
+                    alt="user avatar"
                     roundedCircle
                   />
                 )}
-                {userCloudImageUrl === null && (
-                  <Image src="https://via.placeholder.com/150" roundedCircle />
+                {serverImgUrl === null && (
+                  <Image src="https://via.placeholder.com/150" alt="default avatar" roundedCircle />
                 )}
               </Col>
 
@@ -131,7 +135,6 @@ const UserConfig = () => {
                 <Col sm="10">
                   <Form.Control
                     type="text"
-                    value={userName}
                     defaultValue={userData.name}
                     onChange={(e) => setUserName(e.target.value)}
                   />

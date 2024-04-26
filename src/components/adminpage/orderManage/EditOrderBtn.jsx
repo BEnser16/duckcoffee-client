@@ -1,33 +1,108 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button, Modal, Table, Dropdown } from "react-bootstrap";
-import { useState } from "react";
-import { OrderFormService } from "../../../service/OrderFormService";
+import { OrderItemService } from "../../../service/OrderItemService";
+import { useToast } from "../../../utils/ToastManager";
+import axios from "axios";
 
 const EditOrderBtn = (props) => {
   const [show, setShow] = useState(false);
-  let { orderForm, setOrderForm } = props;
+  let { orderForm } = props;
+  const [editOrderItems, setEditOrderItems] = useState(orderForm.orderItemDetails);
   const [totalPrice, setTotalPrice] = useState(0);
+  const [showPending, setShowPending] = useState(false);
+  const [ice, setIce] = useState(Array(editOrderItems.length).fill("")); // 冰度狀態陣列
+  const [sugar, setSugar] = useState(Array(editOrderItems.length).fill("")); // 甜度狀態陣列
+  const deleteItemLinks = [];
+  const toast = useToast();
 
   React.useEffect(() => {
-    const caculateTotalPrice = async () => {
+    console.log("orderForm props: ", orderForm);
+    const calculateTotalPrice = () => {
       let totalPrice = 0;
       orderForm.orderItemDetails.forEach((item) => {
         totalPrice += item.menuItemDetails.price * item.quantity;
       });
-      return totalPrice;
+      setTotalPrice(totalPrice);
     };
+  
+    calculateTotalPrice(); // 計算初始總價
+  
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [orderForm]);
+  
 
-    const fetchTotalPrice = async () => {
-      const price = await caculateTotalPrice();
-      setTotalPrice(price);
-    };
+  const calculateTotalPrice = () => {
+    let totalPrice = 0;
+    editOrderItems.forEach((item) => {
+      totalPrice += item.menuItemDetails.price * item.quantity;
+    });
+    setTotalPrice(totalPrice);
+  };
 
-    fetchTotalPrice();
-  }, [orderForm]); // 依賴於orderForm，當orderForm變化時重新計算總價
+  const handleDeleteItem = (item) => {
+    setShowPending(true);
+    deleteItemLinks.push(item._links.self.href);
+    const newOrderItemDetails = editOrderItems.filter((i) => i !== item);
+    setEditOrderItems(newOrderItemDetails);
+    calculateTotalPrice(); // 刪除項目後重新計算總價
+    setShowPending(false);
+  };
 
   const handleUpdateOrder = () => {
-    setOrderForm(orderForm);
-    OrderFormService.updateOrderFormById(orderForm.orderFormId, orderForm);
+    setShowPending(true);
+    console.log("編輯後更新執行中...");
+
+    // 迴圈刪除訂單項
+    deleteItemLinks.forEach(async (link) => {
+      console.log("delete item link: ", link);
+      await OrderItemService.deleteOrderItemByLink(link)
+        .then((res) => {
+          console.log("delete item: ", res);
+          toast.addToast("刪除訂單項成功", "success");
+        })
+        .catch((err) => {
+          console.log("delete item error: ", err);
+        });
+    });
+
+    // 更新訂單項的內容
+    editOrderItems.forEach(async (item) => {
+      await OrderItemService.updateOrderItemByLink(item._links.self.href, item)
+        .then((res) => {
+          console.log("update item by link: ", res);
+        })
+        .catch((err) => {
+          console.log("update item error: ", err);
+        });
+    });
+
+    // 更新訂單總價
+    axios
+      .put(orderForm._links.self.href, {
+        form_status: orderForm.form_status,
+        create_time: orderForm.create_time,
+        last_update_time: orderForm.last_update_time,
+        table_number: orderForm.table_number,
+        total_price: totalPrice,
+      })
+      .then((res) => {
+        console.log("update order form total price: ", res);
+      })
+      .catch((err) => {
+        console.log("update order form total price error: ", err);
+      });
+
+    toast.addToast("更新訂單項成功", "success");
+
+    setShowPending(false);
+    window.location.reload();
+  };
+
+  const handleQuantityChange = (e, item) => {
+    const quantity = parseInt(e.target.value);
+    item.quantity = quantity;
+    setEditOrderItems([...editOrderItems]); // 更新訂單項數據
+    calculateTotalPrice(); // 重新計算總價
   };
 
   return (
@@ -51,175 +126,142 @@ const EditOrderBtn = (props) => {
           <div>
             <Table>
               <thead>
-                <th>圖片</th>
-                <th>品名</th>
-                <th>單價</th>
-                <th>數量</th>
-                <th>冰度</th>
-                <th>甜度</th>
-                <th>備註</th>
-                <th>刪除</th>
+                <tr>
+                  <th>圖片</th>
+                  <th>品名</th>
+                  <th>單價</th>
+                  <th>數量</th>
+                  <th>冰度</th>
+                  <th>甜度</th>
+                  <th>備註</th>
+                  <th>刪除</th>
+                </tr>
               </thead>
               <tbody>
-                {orderForm.orderItemDetails.map((item) => {
-                  return (
-                    <tr>
-                      <td>
-                        <img
-                          src={item.menuItemDetails.img}
-                          style={{
-                            height: "30px",
-                            width: "30px",
-                            objectFit: "cover",
-                          }}
-                          alt="order-item-img"
-                        />
-                      </td>
-                      <td>{item.menuItemDetails.name}</td>
-                      <td>${item.menuItemDetails.price}</td>
-                      <td>
-                        <input
-                          type="text"
-                          onChange={(e) => {
-                            item.quantity = e.target.value;
-                          }}
-                          defaultValue={item.quantity}
-                          style={{ width: 40 }}
-                        />
-                      </td>
-                      {item.category === "coffee" ? (
-                        <>
-                          <td>
-                            <Dropdown>
-                              <Dropdown.Toggle
-                                variant="success"
-                                id="dropdown-basic"
-                              >
-                                {item.ice}
-                              </Dropdown.Toggle>
+                {showPending && <div>處理中...</div>}
 
-                              <Dropdown.Menu>
-                                <Dropdown.Item
-                                  href="#/action-1"
-                                  onClick={() => {
-                                    item.ice = "去冰";
-                                  }}
+                {!showPending &&
+                  editOrderItems.map((item, index) => {
+                    return (
+                      <tr key={item.menuItemDetails.id}>
+                        <td>
+                          <img
+                            src={item.menuItemDetails.img}
+                            style={{
+                              height: "30px",
+                              width: "30px",
+                              objectFit: "cover",
+                            }}
+                            alt="order-item-img"
+                          />
+                        </td>
+                        <td>{item.menuItemDetails.name}</td>
+                        <td>${item.menuItemDetails.price}</td>
+                        <td>
+                          <input
+                            type="number"
+                            min="1"
+                            onChange={(e) => handleQuantityChange(e, item)}
+                            defaultValue={item.quantity}
+                            style={{ width: 40 }}
+                          />
+                        </td>
+                        {item.menuItemDetails.category === "coffee" ? (
+                          <>
+                            <td>
+                              <Dropdown>
+                                <Dropdown.Toggle
+                                  variant="success"
+                                  id="dropdown-basic"
                                 >
-                                  去冰
-                                </Dropdown.Item>
-                                <Dropdown.Item
-                                  href="#/action-2"
-                                  onClick={() => {
-                                    item.ice = "少冰";
-                                  }}
-                                >
-                                  少冰
-                                </Dropdown.Item>
-                                <Dropdown.Item
-                                  href="#/action-3"
-                                  onClick={() => {
-                                    item.ice = "正常";
-                                  }}
-                                >
-                                  正常
-                                </Dropdown.Item>
-                              </Dropdown.Menu>
-                            </Dropdown>
-                          </td>
-                          <td>
-                            <Dropdown>
-                              <Dropdown.Toggle
-                                variant="success"
-                                id="dropdown-basic"
-                              >
-                                {item.sugar}
-                              </Dropdown.Toggle>
+                                  {ice[index] === "" ? item.ice : ice[index]}
+                                </Dropdown.Toggle>
 
-                              <Dropdown.Menu>
-                                <Dropdown.Item
-                                  href="#/action-1"
-                                  onClick={() => (item.sugar = "無糖")}
+                                <Dropdown.Menu>
+                                  <Dropdown.Item
+                                    href="#/action-1"
+                                    onClick={() => {
+                                      const newIce = [...ice];
+                                      item.ice = "去冰";
+                                      newIce[index] = "去冰";
+                                      setIce(newIce);
+                                    }}
+                                  >
+                                    去冰
+                                  </Dropdown.Item>
+                                  {/* 其他冰度选项 */}
+                                </Dropdown.Menu>
+                              </Dropdown>
+                            </td>
+                            <td>
+                              <Dropdown>
+                                <Dropdown.Toggle
+                                  variant="success"
+                                  id="dropdown-basic"
                                 >
-                                  無糖
-                                </Dropdown.Item>
-                                <Dropdown.Item
-                                  href="#/action-2"
-                                  onClick={() => (item.sugar = "微糖")}
-                                >
-                                  微糖
-                                </Dropdown.Item>
-                                <Dropdown.Item
-                                  href="#/action-3"
-                                  onClick={() => (item.sugar = "少糖")}
-                                >
-                                  少糖
-                                </Dropdown.Item>
-                                <Dropdown.Item
-                                  href="#/action-3"
-                                  onClick={() => (item.sugar = "半糖")}
-                                >
-                                  半糖
-                                </Dropdown.Item>
-                                <Dropdown.Item
-                                  href="#/action-3"
-                                  onClick={() => (item.sugar = "正常")}
-                                >
-                                  正常
-                                </Dropdown.Item>
-                                <Dropdown.Item
-                                  href="#/action-3"
-                                  onClick={() => (item.sugar = "全糖")}
-                                >
-                                  全糖
-                                </Dropdown.Item>
-                              </Dropdown.Menu>
-                            </Dropdown>
-                          </td>
-                        </>
-                      ) : (
-                        <>
-                        <td></td>
-                        <td></td>
-                        </>
-                      )}
+                                  {sugar[index] === "" ? item.sugar : sugar[index]}
+                                </Dropdown.Toggle>
 
-                      <td>
-                        <input
-                          type="text"
-                          onChange={(e) => {
-                            item.remark = e.target.value;
-                          }}
-                          defaultValue={item.remark}
-                        />
-                      </td>
-                      <td>
-                        <Button
-                          variant="danger"
-                          onClick={() => {
-                            console.log("delete item: ", item);
+                                <Dropdown.Menu>
+                                  <Dropdown.Item
+                                    href="#/action-1"
+                                    onClick={() => {
+                                      const newSugar = [...sugar];
+                                      item.sugar = "無糖";
+                                      newSugar[index] = "無糖";
+                                      setSugar(newSugar);
+                                    }}
+                                  >
+                                    無糖
+                                  </Dropdown.Item>
+                                  {/* 其他甜度选项 */}
+                                </Dropdown.Menu>
+                              </Dropdown>
+                            </td>
+                          </>
+                        ) : (
+                          <>
+                            <td>無</td>
+                            <td>無</td>
+                          </>
+                        )}
 
-                            const newOrderForm =
-                              orderForm.orderItemDetails.filter(
-                                (i) => i !== item
-                              );
-                            setOrderForm(newOrderForm);
-                          }}
-                        >
-                          X
-                        </Button>
-                      </td>
-                    </tr>
-                  );
-                })}
+                        <td>
+                          <input
+                            type="text"
+                            onChange={(e) => {
+                              item.remark = e.target.value;
+                            }}
+                            defaultValue={item.remark}
+                          />
+                        </td>
+                        <td>
+                          <Button
+                            variant="danger"
+                            onClick={() => handleDeleteItem(item)}
+                          >
+                            X
+                          </Button>
+                        </td>
+                      </tr>
+                    );
+                  })}
               </tbody>
             </Table>
-              <div className="d-flex">
-                <p className="ms-auto me-4">訂單總價: {totalPrice}</p>
-              </div>
+            <div className="d-flex">
+              <p className="ms-auto me-4">訂單總價: {totalPrice}</p>
+            </div>
           </div>
         </Modal.Body>
         <Modal.Footer>
-          <Button onClick={() => setShow(false)}> 取消</Button>
+          <Button
+            onClick={() => {
+              setShow(false);
+              window.location.reload();
+            }}
+          >
+            取消
+          </Button>
           <Button variant="success" onClick={() => handleUpdateOrder()}>
             確認
           </Button>

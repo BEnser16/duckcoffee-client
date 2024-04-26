@@ -21,8 +21,8 @@ class TableService {
         return axios.delete(API_URL + "/" + id);
     }
 
-    updateTableSeatById(id , people) {
-        return axios.patch(API_URL + "/" + id , {people});
+    updateTableSeat(href , table) {
+        return axios.put(href , table);
     }
 
 }

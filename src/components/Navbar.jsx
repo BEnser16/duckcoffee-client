@@ -23,16 +23,16 @@ const Navbar = () => {
   return (
     <div>
       <nav
-        class="navbar navbar-expand-lg bg-body-tertiary bg-primary my-2"
+        className="navbar navbar-expand-lg bg-body-tertiary bg-primary my-2"
         data-bs-theme="light"
       >
-        <div class="container-fluid">
+        <div className="container-fluid">
           
-          <a class="navbar-brand" href="/">
+          <a className="navbar-brand" href="/">
             <b>DUCK COFFEE</b>
           </a>
           <button
-            class="navbar-toggler"
+            className="navbar-toggler"
             type="button"
             data-bs-toggle="collapse"
             data-bs-target="#navbarSupportedContent"
@@ -40,43 +40,43 @@ const Navbar = () => {
             aria-expanded="false"
             aria-label="Toggle navigation"
           >
-            <span class="navbar-toggler-icon"></span>
+            <span className="navbar-toggler-icon"></span>
           </button>
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              <li class="nav-item">
+          <div className="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+              <li className="nav-item">
                 <Link to="/" className="nav-link" >
                   首頁
                 </Link>
                 
               </li>
-              <li class="nav-item">
-                <Link to="/news" class="nav-link" >
+              <li className="nav-item">
+                <Link to="/news" className="nav-link" >
                   最新消息
                 </Link>
               </li>
-              <li class="nav-item">
-                <Link to="/about" class="nav-link" >
+              <li className="nav-item">
+                <Link to="/about" className="nav-link" >
                   關於我們
                 </Link>
               </li>
-              <li class="nav-item">
-                <Link class="nav-link" to="/contact">
+              <li className="nav-item">
+                <Link className="nav-link" to="/contact">
                   聯絡我們
                 </Link>
               </li>
-              <li class="nav-item">
-                <Link class="nav-link" to="/menu">
+              <li className="nav-item">
+                <Link className="nav-link" to="/menu">
                   餐點介紹
                 </Link>
               </li>
-              <li class="nav-item">
-                <Link class="nav-link" to="/booking">
+              <li className="nav-item">
+                <Link className="nav-link" to="/booking">
                   線上訂位
                 </Link>
               </li>
-              <li class="nav-item">
-                <Link class="nav-link" to="/order">
+              <li className="nav-item">
+                <Link className="nav-link" to="/order">
                   我要點餐
                 </Link>
               </li>
@@ -96,19 +96,19 @@ const Navbar = () => {
                       borderRadius: "50%",
                       objectFit: "contain",
                     }}
-                    src="https://via.placeholder.com/150"
+                    src={useritem.imageUrl}
                     alt="user avatar"
                   />
                 </button>
-                <ul class="dropdown-menu">
+                <ul className="dropdown-menu">
                   <li>
-                    <Link class="dropdown-item" to="/user-config">
+                    <Link className="dropdown-item" to="/user-config">
                       用戶資訊
                     </Link>
                   </li>
                   
                   <li>
-                    <button class="dropdown-item" onClick={handleLogout} >
+                    <button className="dropdown-item" onClick={handleLogout} >
                       登出
                     </button>
                     
@@ -117,7 +117,7 @@ const Navbar = () => {
               </div>
             )}
             {useritem == null && (
-              <Link to="/login" class="btn btn-success d-flex align-items-center" type="submit" >
+              <Link to="/login" className="btn btn-success d-flex align-items-center" type="submit" >
                 <DoorOpen className="me-2" />
                 會員登入
               </Link>

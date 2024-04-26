@@ -12,9 +12,13 @@ import { clearNewOrder } from "../../../slice/newOrderSlice";
 import EditOrderBtn from "./EditOrderBtn";
 
 const OrderControl = () => {
+  // 訂單
   const [orderForms, setOrderForms] = useState([]);
+  // 單項訂單
   const [orderItems, setOrderItems] = useState([]);
+  // 是否顯示確認刪除視窗
   const [showMakesure, setShowMakesure] = useState(false);
+  // 選擇要刪除的訂單id
   const [selectDeleteId, setSelectDeleteId] = useState();
 
   const dispatch = useDispatch();
@@ -52,7 +56,7 @@ const OrderControl = () => {
             const orderItemDetails = orderItemsWithDetailsFormId.filter(
               (item) => item.orderFormId === idbyUri
             );
-            console.log("orderItemDetails: ", orderItemDetails);
+            console.log("order control get form: ", form);
             return {
               ...form,
               orderFormId: idbyUri,
@@ -68,8 +72,7 @@ const OrderControl = () => {
     parseOrderItemData();
     // 把newOrder設定為false 表示處理完訂單刷新
     dispatch(clearNewOrder());
-
-  }, [isNewOrder , dispatch]); 
+  }, [isNewOrder, dispatch]);
 
   async function deleteOrderForm(id) {
     try {
@@ -145,33 +148,36 @@ const OrderControl = () => {
               return (
                 <Card
                   className="m-2"
-                  style={{ minWidth: "18rem", width: "18rem" }}
+                  style={{ minWidth: "20rem", width: "20rem" }}
                 >
                   <Card.Body>
                     <div className="d-flex align-items-center">
                       <Card.Title>訂單編號: {form.orderFormId} </Card.Title>
-                      <EditOrderBtn  setOrderForm={setOrderForms} orderForm={form}  />
-                    
+                      <EditOrderBtn
+                        
+                        orderForm={form}
+                      />
                     </div>
-                    <p className="mt-2">桌號: {form.table_number}<br/>
-                    訂單時間: {form.create_time}</p>
+                    <p className="mt-2">
+                      桌號: {form.table_number}
+                      <br />
+                      訂單時間: {form.create_time}
+                    </p>
                     <hr />
                     <Table>
                       <tbody>
-                        {/* <button
-                          onClick={() => {
-                            console.log("now form is : ", form);
-                          }}
-                          >
-                          here
-                        </button> */}
+                      
                         {form.orderItemDetails.map((item) => {
                           return (
                             <tr>
                               <td>
                                 <img
                                   src={item.menuItemDetails.img}
-                                  style={{ height: "30px", width: "30px" , objectFit: "cover"}}
+                                  style={{
+                                    height: "30px",
+                                    width: "30px",
+                                    objectFit: "cover",
+                                  }}
                                   alt=""
                                 />
                               </td>
@@ -182,46 +188,54 @@ const OrderControl = () => {
                           );
                         })}
                       </tbody>
-                      <tfoot>
-                        <div></div>
-                        <p className="ms-auto">訂單總價: {form.total_price}</p>
-                      </tfoot>
                     </Table>
+                    <tfoot
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        marginInline:10
+                      }}
+                    >
+                      <p>訂單總價:</p>
+                      <p>{form.total_price}</p>
+                    </tfoot>
                   </Card.Body>
                   <Card.Footer>
-                    <Button
-                      variant="success"
-                      className="mx-2"
-                      onClick={() => {
-                        form.form_status = "completed";
-                        OrderFormService.updateOrderFormById(
-                          form.orderFormId,
-                          form.create_time,
-                          "completed",
-                          form.create_time,
-                          form.table_number,
-                          form.total_price
-                        )
-                          .then((res) => {
-                            console.log("res: ", res);
-                            window.location.reload();
-                          })
-                          .catch((err) => {
-                            console.warn("err: ", err);
-                          });
-                      }}
-                    >
-                      完成
-                    </Button>
-                    <Button
-                      variant="danger"
-                      onClick={() => {
-                        setShowMakesure(true);
-                        setSelectDeleteId(form.orderFormId);
-                      }}
-                    >
-                      刪除
-                    </Button>
+                    <div className="d-flex">
+                      <Button
+                        variant="danger"
+                        onClick={() => {
+                          setShowMakesure(true);
+                          setSelectDeleteId(form.orderFormId);
+                        }}
+                      >
+                        刪除
+                      </Button>
+                      <Button
+                        variant="success"
+                        className="ms-auto"
+                        onClick={() => {
+                          form.form_status = "completed";
+                          OrderFormService.updateOrderFormById(
+                            form.orderFormId,
+                            form.create_time,
+                            "completed",
+                            form.create_time,
+                            form.table_number,
+                            form.total_price
+                          )
+                            .then((res) => {
+                              console.log("res: ", res);
+                              window.location.reload();
+                            })
+                            .catch((err) => {
+                              console.warn("err: ", err);
+                            });
+                        }}
+                      >
+                        完成
+                      </Button>
+                    </div>
                   </Card.Footer>
                 </Card>
               );

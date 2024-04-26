@@ -21,8 +21,8 @@ class OrderFormService {
         return axios.delete(API_URL + "/" + id);
     }
 
-    updateOrderFormById(id , create_time , form_status ,last_update_time, table_number , total_price) {
-        return axios.patch(API_URL + "/" + id , {create_time , form_status,last_update_time, table_number , total_price});
+    updateOrderFormById(id , updateForm) {
+        return axios.put(API_URL + "/" + id , updateForm);
     }    
 
 }
