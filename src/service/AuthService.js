@@ -1,18 +1,16 @@
 import axios from "axios";
-const API_URL = "http://localhost:8080/api/auth/member"
+import BaseUrl from "./BaseUrl";
 
+const API_URL = `${BaseUrl}/api/auth/member`;
 
 
 class AuthService {
-
-    // send login request function
     login(email , password) {
         return axios.post(API_URL + "/login" , {email , password});
     }
 
-    // send register request function
-    register(email , password) {
-        return axios.post(API_URL + "/register" , {email , password});
+    register(user) {
+        return axios.post(API_URL + "/register" , user);
     }
 
     getCurrentUser(){
@@ -22,10 +20,8 @@ class AuthService {
     logout(){
      localStorage.removeItem("user-info");
     }
-
 }
 
 const authServiceInstance = new AuthService();
 
 export { authServiceInstance as AuthService };
-

@@ -1,5 +1,7 @@
 import axios from "axios";
-const API_URL = "http://localhost:8080/api/menuItems"
+import BaseUrl from "./BaseUrl";
+const API_URL = `${BaseUrl}/api/menuItems`
+
 
 
 

@@ -3,17 +3,15 @@ import { useState } from "react";
 import  {AuthService}  from "../../service/AuthService";
 import { useDispatch } from "react-redux";
 import { login } from "../../slice/userSlice";
-import TextToast from "../../utils/TextToast";
 import BaseUrl from "../../service/BaseUrl";
 import axios from "axios";
-
-
+import { useToast } from "../../utils/ToastManager";
 
 
 const Login = () => {
   const [email , setEmail] = useState("");
   const [password , setPassword] = useState("");
-  const [showToast , setShowToast] = useState();
+  const toast = useToast();  
   const dispatch = useDispatch();
 
   const handleEmailChange = event => {
@@ -50,7 +48,12 @@ const Login = () => {
       // }
 
       // dispatch(login(login_userObj));
-      setShowToast(true);
+      toast.addToast("登入成功! 3秒後回到首頁", "success");
+
+      // 延遲 3 秒後重定向到首頁
+      setTimeout(function() {
+        window.location.href = '/';
+      }, 3000); 
 
     }).catch((err) =>{
       console.error("send login request error.");
@@ -63,7 +66,6 @@ const Login = () => {
 
   return (
     <div className="container d-flex justify-content-center align-items-center" style={{minHeight:"80vh"}} >
-      <TextToast message={"登入成功！"} show={showToast} />
         <div className="col-6">
           <div className="mb-3 row">
             <div className="row mb-3">

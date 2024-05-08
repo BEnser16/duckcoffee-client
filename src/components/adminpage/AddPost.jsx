@@ -1,14 +1,29 @@
 import React from "react";
 import { useState } from "react";
 import { PostService } from "../../service/PostService";
+import { UploadImageToServer } from "../../utils/UploadImgToServer";
 
 const AddPost = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
 
-  const [coverImg, setCoverImg] = useState("");
+  const [coverImg, setCoverImg] = useState(null);
 
-  function handleCreatePost(title, description, cover_img) {
+  async function handleCreatePost(title, description, cover_img) {
+    if (!title || !description) {
+      window.alert("請輸入標題和描述");
+      return;
+    }
+    if(cover_img === null){
+      window.alert("請上傳封面圖片");
+      return;
+    } else {
+      const img_url = await UploadImageToServer(cover_img).catch((err) => {
+        console.error("upload img to server error: ", err);
+        return;
+      });
+      cover_img = img_url;
+    }
     const now = new Date();
     const create_time = now.toISOString();
     PostService.createPost(title, description, cover_img, create_time)
@@ -33,6 +48,7 @@ const AddPost = () => {
 
   const handleCoverImgFile = (e) => {
     const img_file = e.target.files[0];
+    console.log("set post cover img_file: ", img_file);
     setCoverImg(img_file);
   };
 
@@ -99,7 +115,7 @@ const AddPost = () => {
                     className="form-control"
                     type="file"
                     id="formFile"
-                    onChange={() => handleCoverImgFile}
+                    onChange={handleCoverImgFile}
                   />
                 </div>
               </div>

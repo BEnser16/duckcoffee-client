@@ -17,12 +17,12 @@ class PostService {
         return axios.post(API_URL , {title , description , cover_img , create_time});
     }
 
-    deletePostById(id) {
-        return axios.delete(API_URL + "/" + id);
+    deletePost(postLink) {
+        return axios.delete(postLink);
     }
 
-    updatePostById(id , title , description , cover_img , create_time) {
-        return axios.patch(API_URL + "/" + id , {title , description , cover_img , create_time});
+    updatePost(link , title , description , cover_img , create_time) {
+        return axios.patch(link, {title , description , cover_img , create_time});
     }
     
 

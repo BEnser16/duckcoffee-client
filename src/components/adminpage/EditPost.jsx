@@ -2,23 +2,37 @@ import React from "react";
 import { useState } from "react";
 import { PostService } from "../../service/PostService";
 import { Modal } from "react-bootstrap";
+import { UploadImageToServer } from "../../utils/UploadImgToServer";
 
 const EditPost = (props) => {
   const [title, setTitle] = useState();
   const [description, setDescription] = useState();
   const [updateState, setUpdateState] = useState(false);
   const [coverImg, setCoverImg] = useState();
+  const [imageUrl, setImageUrl] = useState(""); // 用於存儲圖片的URL
 
-  function handleEditPost(title, description, cover_img) {
+  async function handleEditPost(title, description, cover_img) {
     const now = new Date();
     const create_time = now.toISOString();
-    // get id by regex
     const href = props.post._links.self.href;
-    const idMatch = href.match(/\/(\d+)$/); // 提取最後的數字
-    const id = idMatch ? idMatch[1] : null;
-    console.log("Update Post ID:", id);
 
-    PostService.updatePostById(id, title, description, cover_img, create_time)
+    console.log("Update Post link:", href);
+    if (!title || !description) {
+      window.alert("請輸入標題和描述");
+      return;
+    }
+    if(cover_img === null){
+      window.alert("請上傳封面圖片");
+      return;
+    } else {
+      const img_url = await UploadImageToServer(cover_img).catch((err) => {
+        console.error("upload img to server error: ", err);
+        return;
+      });
+      cover_img = img_url;
+    }
+
+    PostService.updatePost(href, title, description, cover_img, create_time)
       .then((res) => {
         console.log("update post res: ", res);
         window.alert("update post success.");
@@ -39,6 +53,9 @@ const EditPost = (props) => {
 
   const handleCoverImgFile = (e) => {
     const img_file = e.target.files[0];
+    console.log("set post cover img_file: ", img_file);
+    const url = URL.createObjectURL(img_file); // 使用URL.createObjectURL創建URL
+    setImageUrl(url); // 將URL設置為state中的imageUrl
     setCoverImg(img_file);
   };
 
@@ -74,12 +91,22 @@ const EditPost = (props) => {
                 ></button>
               </div>
               <div class="modal-body">
-                <img
-                  className="mb-2"
-                  src={coverImg}
-                  alt="edit menu img"
-                  style={{ maxHeight: "150px", maxWidth: "400px" }}
-                />
+                {/* 顯示選擇的圖片 */}
+                {imageUrl && (
+                  <img
+                    src={imageUrl}
+                    alt="new menu"
+                    style={{ maxWidth: "100%", maxHeight: "300px" }}
+                  />
+                )}
+                {!imageUrl && (
+                  <img
+                    className="mb-2"
+                    src={coverImg}
+                    alt="edit menu img"
+                    style={{ maxHeight: "150px", maxWidth: "400px" }}
+                  />
+                )}
 
                 <div className="input-group mb-3">
                   <span class="input-group-text">標題</span>
@@ -110,7 +137,7 @@ const EditPost = (props) => {
                     class="form-control"
                     type="file"
                     id="formFile"
-                    onChange={() => handleCoverImgFile}
+                    onChange={handleCoverImgFile}
                   />
                 </div>
               </div>

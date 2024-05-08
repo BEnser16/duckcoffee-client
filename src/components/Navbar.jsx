@@ -14,6 +14,7 @@ const Navbar = () => {
   const handleLogout = () => {
     window.alert("Logout successfully! now redirect to the home page. "); 
     dispatch(logout()); 
+    window.location.href = "/";
   };
 
 

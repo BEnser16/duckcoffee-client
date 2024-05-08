@@ -1,12 +1,12 @@
 import React from "react";
 import { useState } from "react";
 import { Image, Modal, Button } from "react-bootstrap";
+import { UploadImageToServer } from "../../utils/UploadImgToServer";
 import axios from "axios";
 
 const EditMenuItem = (props) => {
   const menuItemLink = props.menuItem._links.self.href;
   const [img, setImg] = useState(null);
-  const [imgUrl, setImgUrl] = useState(null);
   const [menuItem, setMenuItem] = useState(props.menuItem);
   const [showModal, setShowModal] = useState(false);
 
@@ -44,33 +44,31 @@ const EditMenuItem = (props) => {
   const handleImgFile = (e) => {
     const img_file = e.target.files[0];
     setImg(img_file);
-    setImgUrl(URL.createObjectURL(img_file));
   };
 
   const editMenuItemComplete = async () => {
-    const formData = new FormData();
-    formData.append("file", img);
+    const newMneuItem = menuItem;
+    if (img !== null) {
+      const img_url = await UploadImageToServer(img).catch((err) => {
+        console.error("upload img to server error: ", err);
+        return;
+      });
+      newMneuItem.img = img_url;
+    }
 
     try {
-      const response = await axios.post(
-        "http://localhost:8080/api/img/upload",
-        formData
-      );
-      console.log("圖傳到伺服器成功:", response.data);
-      setImgUrl(`http://localhost:8080${response.data}`);
-      window.alert("圖片上傳成功");
       axios
-        .put(menuItemLink, menuItem)
+        .put(menuItemLink, newMneuItem)
         .then((res) => {
           console.log("edit menu item res: ", res);
-          window.alert("MenuItem has been updated.");
+          window.alert("菜單更新成功！");
           window.location.reload();
         })
         .catch((err) => {
           console.warn("edit menu item error: ", err);
         });
     } catch (error) {
-      console.error("圖片上傳失败:", error);
+      console.error("菜單更新失敗: ", error);
     }
   };
 
@@ -174,18 +172,6 @@ const EditMenuItem = (props) => {
             </div>
           </div>
           <div className="mb-3">
-            {imgUrl !== null && (
-              <div
-                style={{ width: "100%", height: "200px", overflow: "hidden" }}
-              >
-                <Image
-                  src={imgUrl}
-                  alt="upload-img-preview"
-                  style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                />
-              </div>
-            )}
-
             <label htmlFor="formFile" className="form-label">
               上傳餐點圖片
             </label>

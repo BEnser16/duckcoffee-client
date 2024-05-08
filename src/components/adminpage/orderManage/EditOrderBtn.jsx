@@ -181,15 +181,37 @@ const EditOrderBtn = (props) => {
                                   <Dropdown.Item
                                     href="#/action-1"
                                     onClick={() => {
-                                      const newIce = [...ice];
-                                      item.ice = "去冰";
+                                      const newIce = [...sugar];
+                                      item.sugar = "正常";
                                       newIce[index] = "去冰";
                                       setIce(newIce);
                                     }}
                                   >
                                     去冰
                                   </Dropdown.Item>
-                                  {/* 其他冰度选项 */}
+                                  <Dropdown.Item
+                                    href="#/action-1"
+                                    onClick={() => {
+                                      const newIce = [...ice];
+                                      item.ice = "少冰";
+                                      newIce[index] = "少冰";
+                                      setIce(newIce);
+                                    }}
+                                  >
+                                    少冰
+                                  </Dropdown.Item>
+                                  <Dropdown.Item
+                                    href="#/action-1"
+                                    onClick={() => {
+                                      const newIce = [...ice];
+                                      item.ice = "正常";
+                                      newIce[index] = "正常";
+                                      setIce(newIce);
+                                    }}
+                                  >
+                                    正常
+                                  </Dropdown.Item>
+                                  
                                 </Dropdown.Menu>
                               </Dropdown>
                             </td>
@@ -214,7 +236,52 @@ const EditOrderBtn = (props) => {
                                   >
                                     無糖
                                   </Dropdown.Item>
-                                  {/* 其他甜度选项 */}
+                                  <Dropdown.Item
+                                    href="#/action-1"
+                                    onClick={() => {
+                                      const newSugar = [...sugar];
+                                      item.sugar = "微糖";
+                                      newSugar[index] = "微糖";
+                                      setSugar(newSugar);
+                                    }}
+                                  >
+                                    微糖
+                                  </Dropdown.Item>
+                                  <Dropdown.Item
+                                    href="#/action-1"
+                                    onClick={() => {
+                                      const newSugar = [...sugar];
+                                      item.sugar = "半糖";
+                                      newSugar[index] = "半糖";
+                                      setSugar(newSugar);
+                                    }}
+                                  >
+                                    半糖
+                                  </Dropdown.Item>
+                                  <Dropdown.Item
+                                    href="#/action-1"
+                                    onClick={() => {
+                                      const newSugar = [...sugar];
+                                      item.sugar = "正常";
+                                      newSugar[index] = "正常";
+                                      setSugar(newSugar);
+                                    }}
+                                  >
+                                    正常
+                                  </Dropdown.Item>
+                                  <Dropdown.Item
+                                    href="#/action-1"
+                                    onClick={() => {
+                                      const newSugar = [...sugar];
+                                      item.sugar = "全糖";
+                                      newSugar[index] = "全糖";
+                                      setSugar(newSugar);
+                                    }}
+                                  >
+                                    全糖
+                                  </Dropdown.Item>
+                                  
+                                  
                                 </Dropdown.Menu>
                               </Dropdown>
                             </td>

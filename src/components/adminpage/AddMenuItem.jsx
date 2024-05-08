@@ -1,6 +1,8 @@
 import React from "react";
 import { MenuService } from "../../service/MenuService";
 import { useState } from "react";
+import BaseUrl from "../../service/BaseUrl";
+import { UploadImageToServer } from "../../utils/UploadImgToServer";
 
 const AddMenuItem = () => {
 
@@ -8,9 +10,20 @@ const AddMenuItem = () => {
   const [description , setDescription] = useState("");
   const [price , setPrice] = useState();
   const [category , setCategory] = useState("coffee");
-  const [img , setImg] = useState();
+  const [img , setImg] = useState(null);
 
-  function handleCreateMenuItem(name , description , price , category , img) {
+  async function handleCreateMenuItem(name , description , price , category , img) {
+    if(img === null){
+      // set default img
+      img = `${BaseUrl}/app/img/defaultAvatar.jpg`;
+    } else {
+      const img_url = await UploadImageToServer(img).catch((err) => {
+        console.error("upload img to server error: " , err);
+        return;
+      });
+      img = img_url;
+      alert("upload img success." + img_url);
+    }
     MenuService.createMenuItem(name , description , img , price, category).then((res) => {
       console.log("create menu item res: " , res);
       window.alert("create menu item success.");
@@ -38,6 +51,7 @@ const AddMenuItem = () => {
 
   const handleImgFile = (e) => {
     const img_file = e.target.files[0];
+    console.log("handle change img file: " , img_file);
     setImg(img_file);
   }
 
@@ -148,7 +162,7 @@ const AddMenuItem = () => {
                 <label htmlFor="formFile" className="form-label">
                   上傳餐點圖片
                 </label>
-                <input className="form-control" type="file" id="formFile" onChange={() => handleImgFile} />
+                <input className="form-control" type="file" id="formFile" onChange={handleImgFile} />
               </div>
             </div>
             <div className="modal-footer">

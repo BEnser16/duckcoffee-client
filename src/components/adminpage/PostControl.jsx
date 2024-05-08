@@ -18,14 +18,10 @@ const PostControl = () => {
   }, []);
 
   function handleDeletePost(post) {
-    // get id by regex
     const href = post._links.self.href;
-    const idMatch = href.match(/\/(\d+)$/); // 提取最後的數字
-    const id = idMatch ? idMatch[1] : null;
-    console.log("post link: ", href)
-    console.log("Delete Post ID:", id);
+    console.log("Delete Post", post);
 
-    PostService.deletePostById(id)
+    PostService.deletePost(href)
       .then((res) => {
         console.log("delete post res: ", res);
         window.alert("delete post success.");
@@ -79,54 +75,11 @@ const PostControl = () => {
                     <div className="d-flex" id="post_control_button">
                       <button
                         className="btn btn-danger mx-2"
-                        data-bs-toggle="modal"
-                        data-bs-target="#deletePostModal"
+                        onClick={() => handleDeletePost(post)}
+
                       >
                         刪除
                       </button>
-                      <div
-                        className="modal fade"
-                        id="deletePostModal"
-                        tabIndex="-1"
-                        aria-labelledby="deletePostModal"
-                        aria-hidden="true"
-                      >
-                        <div className="modal-dialog">
-                          <div className="modal-content">
-                            <div className="modal-header">
-                              <h1
-                                className="modal-title fs-5"
-                                id="exampleModalLabel"
-                              >
-                                刪除消息
-                              </h1>
-                              <button
-                                type="button"
-                                className="btn-close"
-                                data-bs-dismiss="modal"
-                                aria-label="Close"
-                              ></button>
-                            </div>
-                            <div className="modal-body">確定刪除消息？</div>
-                            <div className="modal-footer">
-                              <button
-                                type="button"
-                                className="btn btn-secondary"
-                                data-bs-dismiss="modal"
-                              >
-                                取消
-                              </button>
-                              <button
-                                type="button"
-                                className="btn btn-primary"
-                                onClick={() => handleDeletePost(post)}
-                              >
-                                完成
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
 
                       <EditPost post={post} />
                     </div>
