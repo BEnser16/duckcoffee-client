@@ -19,7 +19,7 @@ const Carousel = () => {
             <img src={threehandImg} class="d-block w-100" alt="..." />
           </div>
           <div class="carousel-item">
-            <img src={famiImg} class="d-block w-100" alt="..." />
+            <img src={famiImg} class="d-block w-100" style={{objectFit:"cover"}} alt="..." />
           </div>
         </div>
         <button
